@@ -1,3 +1,5 @@
+/* Academic Ledger design: warm paper surfaces, scholarly teal hierarchy, editorial typography, and responsive ledger rhythm. */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -27,151 +29,138 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
+  --font-sans: "DM Sans", sans-serif;
+  --font-serif: "Fraunces", Georgia, serif;
 }
 
 :root {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-600);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.235 0.015 65);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.235 0.015 65);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.235 0.015 65);
-  --secondary: oklch(0.98 0.001 286.375);
-  --secondary-foreground: oklch(0.4 0.015 65);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.141 0.005 285.823);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.623 0.214 259.815);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.235 0.015 65);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.623 0.214 259.815);
-}
-
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --radius: 0.85rem;
+  --background: oklch(0.97 0.012 88);
+  --foreground: oklch(0.23 0.018 166);
+  --card: oklch(0.99 0.006 94);
+  --card-foreground: oklch(0.23 0.018 166);
+  --popover: oklch(0.99 0.006 94);
+  --popover-foreground: oklch(0.23 0.018 166);
+  --primary: oklch(0.46 0.102 181);
+  --primary-foreground: oklch(0.99 0.006 94);
+  --secondary: oklch(0.94 0.014 92);
+  --secondary-foreground: oklch(0.31 0.02 166);
+  --muted: oklch(0.94 0.012 92);
+  --muted-foreground: oklch(0.48 0.019 165);
+  --accent: oklch(0.9 0.04 177);
+  --accent-foreground: oklch(0.28 0.05 177);
+  --destructive: oklch(0.54 0.15 29);
+  --destructive-foreground: oklch(0.99 0.006 94);
+  --border: oklch(0.86 0.015 88);
+  --input: oklch(0.86 0.015 88);
+  --ring: oklch(0.46 0.102 181);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
-  }
+  * { @apply border-border outline-ring/50; }
+  html { scroll-behavior: smooth; }
+  body { @apply bg-background text-foreground font-sans antialiased; }
+  button:not(:disabled), select:not(:disabled), input:not(:disabled), a[href] { @apply cursor-pointer; }
+  input, select { font-variant-numeric: tabular-nums; }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
-    padding-right: 1rem;
-  }
+  .container { width: 100%; margin-inline: auto; padding-inline: 1rem; }
+  .flex { min-height: 0; min-width: 0; }
+  @media (min-width: 640px) { .container { padding-inline: 1.5rem; } }
+  @media (min-width: 1024px) { .container { max-width: 1280px; padding-inline: 2rem; } }
 
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
+  .brand-lockup { display: inline-flex; align-items: center; gap: 0.7rem; color: #1f2a28; }
+  .brand-lockup img { filter: drop-shadow(0 2px 3px rgb(14 118 110 / 0.16)); }
+  .brand-lockup span { display: grid; line-height: 1; }
+  .brand-lockup strong { font-family: "Fraunces", Georgia, serif; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.045em; }
+  .brand-lockup small { margin-top: 0.25rem; color: #64716c; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
-      padding-right: 1.5rem;
-    }
-  }
+  .hero-ledger { box-shadow: 0 14px 32px rgb(69 57 39 / 0.07); }
+  .hero-ledger::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.35; background-image: linear-gradient(to bottom, transparent 27px, rgb(120 115 95 / 0.11) 28px); background-size: 100% 28px; mask-image: linear-gradient(to right, black 15%, transparent 65%); }
+  .eyebrow { display: flex; align-items: center; gap: 0.4rem; color: #0e766e; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .hero-ledger h1 { margin-top: 0.8rem; max-width: 650px; font-family: "Fraunces", Georgia, serif; font-size: clamp(2.15rem, 4.5vw, 4rem); font-weight: 700; letter-spacing: -0.055em; line-height: 1.02; }
+  .hero-ledger h1 em { color: #0e766e; font-style: italic; }
+  .hero-ledger p { margin-top: 1rem; max-width: 590px; color: #4e5c57; font-size: 0.98rem; line-height: 1.7; }
 
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem; /* 32px - desktop padding */
-      padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
-    }
-  }
+  .section-heading { margin-top: 0.35rem; color: #1f2a28; font-family: "Fraunces", Georgia, serif; font-size: clamp(1.55rem, 2.5vw, 2.1rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.05; }
+  .semester-chapter { overflow: hidden; border: 1px solid #d9d3c6; border-radius: 1.35rem; background: rgb(255 253 247 / 0.8); box-shadow: 0 12px 24px rgb(62 55 44 / 0.04); }
+  .semester-chapter-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.3rem 1.15rem 1.15rem; border-bottom: 1px solid #ded8cb; background: linear-gradient(105deg, #f8f4eb, #f1ebde); }
+  .semester-index { display: block; color: #0e766e; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.12em; }
+  .semester-name-input { display: block; width: 100%; max-width: 380px; padding: 0.1rem 0; border: 0; background: transparent; color: #1f2a28; font-family: "Fraunces", Georgia, serif; font-size: clamp(1.35rem, 3vw, 1.75rem); font-weight: 700; letter-spacing: -0.04em; line-height: 1.25; }
+  .semester-name-input:focus { outline: none; box-shadow: 0 2px 0 #0e766e; }
+  .semester-name-input::placeholder { color: #87918a; }
+  .semester-subtitle { margin-top: 0.35rem; color: #69736f; font-size: 0.79rem; }
+
+  .result-stamp { min-width: 90px; padding: 0.58rem 0.65rem; border: 1px solid #a8c5be; border-radius: 0.8rem; background: #f8fcfa; text-align: right; box-shadow: inset 0 0 0 3px rgb(14 118 110 / 0.04); }
+  .result-stamp-label, .result-stamp-note { display: block; }
+  .result-stamp-label { color: #39736d; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .result-stamp-value { display: block; margin-top: 0.1rem; color: #0e766e; font-family: "Fraunces", Georgia, serif; font-size: 1.45rem; font-variant-numeric: tabular-nums; letter-spacing: -0.045em; line-height: 1; }
+  .result-stamp-note { margin-top: 0.28rem; color: #64716c; font-size: 0.64rem; white-space: nowrap; }
+  .result-stamp-featured { width: 100%; padding: 1.1rem 1.15rem; border-color: rgb(212 247 239 / 0.45); background: rgb(255 255 255 / 0.12); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.13); text-align: left; backdrop-filter: blur(4px); }
+  .result-stamp-featured .result-stamp-label { color: #bfe6df; }
+  .result-stamp-featured .result-stamp-value { margin-top: 0.28rem; color: #fffdf7; font-size: clamp(3.25rem, 6vw, 4.25rem); }
+  .result-stamp-featured .result-stamp-note { color: #d5eee9; font-size: 0.74rem; }
+
+  .icon-button-danger, .remove-subject-button { display: inline-flex; align-items: center; justify-content: center; border-radius: 0.7rem; color: #8a5440; transition: background-color 160ms cubic-bezier(.23,1,.32,1), color 160ms cubic-bezier(.23,1,.32,1), transform 160ms cubic-bezier(.23,1,.32,1); }
+  .icon-button-danger { width: 2.35rem; height: 2.35rem; border: 1px solid #d3bfb4; background: #fff9f4; }
+  .remove-subject-button { width: 100%; min-height: 2.75rem; border: 1px solid #dccfc5; background: #fffaf5; }
+  .icon-button-danger:hover, .remove-subject-button:hover { background: #f4e3d7; color: #75402c; }
+  .icon-button-danger:active, .remove-subject-button:active { transform: scale(0.97); }
+
+  .subjects-label-row { display: none; grid-template-columns: minmax(0, 1fr) 136px 112px 42px; gap: 0.75rem; padding: 0.8rem 1.15rem 0.2rem; color: #7a817c; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
+  .subject-row { padding: 0.78rem 1.15rem; border-bottom: 1px solid #ebe5da; }
+  .subject-row:last-child { border-bottom: 0; }
+  .field-label { display: block; margin-bottom: 0.38rem; color: #53605a; font-size: 0.72rem; font-weight: 700; }
+  .form-control { display: block; width: 100%; height: 2.75rem; border: 1px solid #d9d3c6; border-radius: 0.65rem; background: #fffdfa; padding: 0 0.78rem; color: #26322e; font-size: 0.88rem; transition: border-color 160ms cubic-bezier(.23,1,.32,1), box-shadow 160ms cubic-bezier(.23,1,.32,1), background-color 160ms cubic-bezier(.23,1,.32,1); }
+  select.form-control { padding-right: 2rem; }
+  .form-control::placeholder { color: #9a9e98; }
+  .form-control:hover { border-color: #b5c9c3; }
+  .form-control:focus { border-color: #0e766e; outline: 0; box-shadow: 0 0 0 3px rgb(14 118 110 / 0.12); }
+  .form-control-error { border-color: #b75c42; background: #fff9f5; }
+  .form-control-error:focus { border-color: #a94d35; box-shadow: 0 0 0 3px rgb(183 92 66 / 0.13); }
+  .input-error { display: flex; align-items: center; gap: 0.35rem; margin-top: 0.55rem; color: #a94d35; font-size: 0.73rem; font-weight: 600; }
+  .empty-subject-state { display: flex; align-items: center; gap: 0.65rem; margin: 0.75rem 1.15rem; padding: 1.1rem; border: 1px dashed #b7c8c4; border-radius: 0.85rem; background: #f5fbf9; color: #52706a; font-size: 0.86rem; }
+  .semester-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.8rem; padding: 1rem 1.15rem; border-top: 1px solid #ded8cb; background: #faf8f2; }
+  .calculation-note, .validation-note { display: flex; align-items: center; gap: 0.32rem; font-size: 0.72rem; line-height: 1.45; }
+  .calculation-note { color: #5e6f69; }
+  .validation-note { color: #a94d35; font-weight: 600; }
+
+  .overall-card { padding: 1.4rem; border-radius: 1.45rem; background: #0b5f5a; color: #fffdf7; box-shadow: 0 20px 38px rgb(14 78 74 / 0.22); }
+  .overall-card::before { content: ""; position: absolute; inset: 0; opacity: 0.14; background-image: linear-gradient(90deg, rgb(255 255 255 / .4) 1px, transparent 1px), linear-gradient(rgb(255 255 255 / .4) 1px, transparent 1px); background-size: 18px 18px; mask-image: linear-gradient(135deg, black, transparent 70%); }
+  .overall-seal { position: absolute; width: 190px; height: 190px; right: -56px; top: -38px; object-fit: cover; border-radius: 999px; opacity: 0.2; mix-blend-mode: screen; }
+  .overall-card-heading { margin: 0.55rem 0 1.25rem; max-width: 200px; color: #fffdf7; font-family: "Fraunces", Georgia, serif; font-size: 1.55rem; font-weight: 600; letter-spacing: -0.04em; line-height: 1.05; }
+  .overall-rule { height: 1px; margin: 1.1rem 0; background: rgb(255 255 255 / 0.2); }
+  .summary-list { display: grid; gap: 0.7rem; }
+  .summary-list div { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .summary-list dt { color: #cbe9e4; font-size: 0.77rem; }
+  .summary-list dd { color: #fffdf7; font-size: 0.89rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .overall-formula { margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid rgb(255 255 255 / 0.15); color: #cbe9e4; font-size: 0.67rem; line-height: 1.55; }
+  .side-note { min-height: 132px; margin-top: 1rem; padding: 1.15rem; border: 1px solid #d4cdbf; border-radius: 1.1rem; background: #f0eadf; }
+  .side-note-art { position: absolute; inset-y: 0; right: 0; width: 52%; object-fit: cover; object-position: right center; opacity: 0.64; mix-blend-mode: multiply; }
+  .side-note p { margin-top: 0.55rem; color: #52605b; font-size: 0.76rem; line-height: 1.58; }
+
+  .grade-key { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.15rem 1.1rem; border: 1px solid #d9d3c6; border-radius: 1.15rem; background: #f9f6ee; }
+  .grade-pills { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
+  .grade-pills span { padding: 0.35rem 0.5rem; border: 1px solid #d3e3df; border-radius: 0.45rem; background: #f5fcfa; color: #476660; font-size: 0.72rem; white-space: nowrap; }
+  .grade-pills b { color: #0e766e; font-weight: 700; }
+}
+
+@media (min-width: 768px) {
+  .subjects-label-row { display: grid; }
+}
+
+@media (max-width: 500px) {
+  .semester-chapter-header { padding: 1.1rem 0.9rem 0.95rem; }
+  .subject-row { padding-inline: 0.9rem; }
+  .semester-footer { padding-inline: 0.9rem; }
+  .grade-key { align-items: flex-start; flex-direction: column; }
+  .grade-pills { justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .semester-chapter { animation: ledger-rise 220ms cubic-bezier(.23,1,.32,1) both; }
+  .semester-chapter:nth-of-type(2) { animation-delay: 45ms; }
+  .semester-chapter:nth-of-type(3) { animation-delay: 90ms; }
+  @keyframes ledger-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 }
