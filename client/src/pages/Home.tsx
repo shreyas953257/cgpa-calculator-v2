@@ -4,16 +4,30 @@
  */
 import { Button } from "@/components/ui/button";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   BookOpenCheck,
   ChevronRight,
   CircleAlert,
   ClipboardList,
   GraduationCap,
+  History,
+  Pencil,
   Plus,
   RefreshCw,
+  Save,
   Trash2,
 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 export type Grade = "" | "O" | "A+" | "A" | "B+" | "B" | "C" | "P" | "F" | "PP" | "DX";
 
@@ -47,6 +61,27 @@ export type SubjectAudit = {
   status: "Included" | "Excluded";
   reason: string;
 };
+
+export type SavedSubject = Subject & {
+  gradePoint: number | null;
+  weightedPoints: number | null;
+  calculationStatus: "Included" | "Excluded";
+  calculationReason: string;
+};
+
+export type SavedSemester = {
+  id: string;
+  name: string;
+  subjects: SavedSubject[];
+  sgpa: number | null;
+  totalCredits: number;
+  totalWeightedPoints: number;
+  savedAt: string;
+};
+
+type StorageAdapter = Pick<Storage, "getItem" | "setItem" | "removeItem">;
+
+const SAVED_SEMESTERS_STORAGE_KEY = "gradebook-saved-semesters-v1";
 
 const gradePoints: Record<Exclude<Grade, "">, number> = {
   O: 10,
@@ -159,6 +194,62 @@ export const calculateSemester = (semester: Semester): SemesterCalculation => {
   };
 };
 
+export const createSavedSemester = (semester: Semester, savedAt = new Date().toISOString()): SavedSemester => {
+  const calculation = calculateSemester(semester);
+  return {
+    id: semester.id,
+    name: semester.name.trim() || "Untitled semester",
+    subjects: semester.subjects.map((subject) => {
+      const audit = getSubjectAudit(subject);
+      return {
+        ...subject,
+        gradePoint: audit.gradePoint,
+        weightedPoints: audit.weightedPoints,
+        calculationStatus: audit.status,
+        calculationReason: audit.reason,
+      };
+    }),
+    sgpa: calculation.sgpa,
+    totalCredits: calculation.totalCredits,
+    totalWeightedPoints: calculation.weightedPoints,
+    savedAt,
+  };
+};
+
+export const loadSavedSemesters = (storage: StorageAdapter | null | undefined): SavedSemester[] => {
+  if (!storage) return [];
+  try {
+    const parsed = JSON.parse(storage.getItem(SAVED_SEMESTERS_STORAGE_KEY) ?? "[]");
+    return Array.isArray(parsed) ? parsed as SavedSemester[] : [];
+  } catch {
+    return [];
+  }
+};
+
+export const persistSavedSemesters = (semesters: SavedSemester[], storage: StorageAdapter | null | undefined) => {
+  if (!storage) return;
+  storage.setItem(SAVED_SEMESTERS_STORAGE_KEY, JSON.stringify(semesters));
+};
+
+export const calculateSavedCgpa = (savedSemesters: SavedSemester[]) => {
+  const includedSemesters = savedSemesters.filter((semester) => semester.totalCredits > 0);
+  const totalCredits = includedSemesters.reduce((sum, semester) => sum + semester.totalCredits, 0);
+  const totalWeightedPoints = includedSemesters.reduce((sum, semester) => sum + semester.totalWeightedPoints, 0);
+  return {
+    totalCredits,
+    totalWeightedPoints,
+    cgpa: totalCredits > 0 ? totalWeightedPoints / totalCredits : null,
+  };
+};
+
+const getBrowserStorage = () => (typeof window === "undefined" ? null : window.localStorage);
+
+const restoreSemesterForEditing = (saved: SavedSemester): Semester => ({
+  id: saved.id,
+  name: saved.name,
+  subjects: saved.subjects.map(({ id, name, grade, credits }) => ({ id, name, grade, credits })),
+});
+
 function ResultStamp({
   label,
   value,
@@ -181,24 +272,21 @@ function ResultStamp({
 
 export default function Home() {
   const [semesters, setSemesters] = useState<Semester[]>(() => [createSemester(1)]);
+  const [savedSemesters, setSavedSemesters] = useState<SavedSemester[]>(() => loadSavedSemesters(getBrowserStorage()));
+
+  useEffect(() => {
+    persistSavedSemesters(savedSemesters, getBrowserStorage());
+  }, [savedSemesters]);
 
   const calculations = useMemo(
     () => semesters.map((semester) => ({ semester, calculation: calculateSemester(semester) })),
     [semesters],
   );
 
-  const eligibleSemesters = calculations.filter(
-    ({ calculation }) => calculation.totalCredits > 0 && calculation.incompleteRows === 0,
+  const { totalCredits: overallCredits, totalWeightedPoints: overallWeightedPoints, cgpa } = useMemo(
+    () => calculateSavedCgpa(savedSemesters),
+    [savedSemesters],
   );
-  const overallCredits = eligibleSemesters.reduce(
-    (sum, { calculation }) => sum + calculation.totalCredits,
-    0,
-  );
-  const overallWeightedPoints = eligibleSemesters.reduce(
-    (sum, { calculation }) => sum + calculation.weightedPoints,
-    0,
-  );
-  const cgpa = overallCredits > 0 ? overallWeightedPoints / overallCredits : null;
   const pendingSemesterCount = calculations.filter(
     ({ calculation }) => calculation.incompleteRows > 0,
   ).length;
@@ -236,7 +324,7 @@ export default function Home() {
   };
 
   const addSemester = () => {
-    setSemesters((current) => [...current, createSemester(current.length + 1)]);
+    setSemesters((current) => [...current, createSemester(savedSemesters.length + current.length + 1)]);
   };
 
   const removeSemester = (semesterId: string) => {
@@ -244,6 +332,32 @@ export default function Home() {
   };
 
   const resetCalculator = () => setSemesters([createSemester(1)]);
+
+  const saveSemester = (semester: Semester, calculation: SemesterCalculation) => {
+    if (calculation.incompleteRows > 0 || !semester.subjects.some(isSubjectComplete)) return;
+    const saved = createSavedSemester(semester);
+    setSavedSemesters((current) => {
+      const existingIndex = current.findIndex((item) => item.id === saved.id);
+      if (existingIndex === -1) return [...current, saved];
+      return current.map((item) => (item.id === saved.id ? saved : item));
+    });
+  };
+
+  const editSavedSemester = (saved: SavedSemester) => {
+    const restored = restoreSemesterForEditing(saved);
+    setSemesters((current) => {
+      const activeIndex = current.findIndex((semester) => semester.id === restored.id);
+      return activeIndex === -1
+        ? [...current, restored]
+        : current.map((semester) => (semester.id === restored.id ? restored : semester));
+    });
+  };
+
+  const deleteSavedSemester = (semesterId: string) => {
+    setSavedSemesters((current) => current.filter((semester) => semester.id !== semesterId));
+  };
+
+  const clearSavedData = () => setSavedSemesters([]);
 
   return (
     <div className="min-h-screen bg-[#f7f3ea] text-[#1f2a28] selection:bg-[#b8e0da]">
@@ -456,9 +570,19 @@ export default function Home() {
                       <p className="validation-note mt-1"><CircleAlert size={15} /> {calculation.excludedDxCount} DX {calculation.excludedDxCount === 1 ? "subject is" : "subjects are"} excluded: {calculation.excludedDxCredits} {calculation.excludedDxCredits === 1 ? "credit is" : "credits are"} not counted in SGPA.</p>
                     )}
                   </div>
-                  <Button variant="outline" onClick={() => addSubject(semester.id)} className="border-[#b8c9c5] bg-[#fbfaf6] text-[#0e766e] hover:bg-[#e2f0ed] active:scale-[.97]">
-                    <Plus size={16} /> Add subject
-                  </Button>
+                  <div className="flex flex-wrap gap-2">
+                    <Button
+                      variant="outline"
+                      onClick={() => saveSemester(semester, calculation)}
+                      disabled={calculation.incompleteRows > 0 || !semester.subjects.some(isSubjectComplete)}
+                      className="border-[#0e766e] bg-[#0e766e] text-white hover:bg-[#095f59] disabled:border-[#cad4d0] disabled:bg-[#edf0ed] disabled:text-[#77827e] active:scale-[.97]"
+                    >
+                      <Save size={16} /> Save semester
+                    </Button>
+                    <Button variant="outline" onClick={() => addSubject(semester.id)} className="border-[#b8c9c5] bg-[#fbfaf6] text-[#0e766e] hover:bg-[#e2f0ed] active:scale-[.97]">
+                      <Plus size={16} /> Add subject
+                    </Button>
+                  </div>
                 </div>
               </article>
             ))}
@@ -471,6 +595,57 @@ export default function Home() {
               <div className="grade-pills" aria-label="Grade point values">
                 {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {grade === "DX" ? "excluded" : point}</span>)}
               </div>
+            </section>
+
+            <section className="semester-history" aria-labelledby="saved-history-heading">
+              <div className="history-heading">
+                <div>
+                  <div className="eyebrow"><History size={14} /> Saved record</div>
+                  <h2 id="saved-history-heading">Semester history</h2>
+                </div>
+                {savedSemesters.length > 0 && (
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="outline" className="border-[#d3bfb4] bg-transparent text-[#8a5440] hover:bg-[#f4e3d7] active:scale-[.97]">
+                        <Trash2 size={15} /> Clear saved data
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent className="border-[#d2cbbe] bg-[#fffdf7] text-[#1f2a28]">
+                      <AlertDialogHeader>
+                        <AlertDialogTitle className="font-['Fraunces'] text-2xl">Clear all saved semesters?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-[#617069]">This permanently removes every locally saved semester and its calculation history from this browser. Your open draft stays available.</AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Keep saved data</AlertDialogCancel>
+                        <AlertDialogAction onClick={clearSavedData} className="bg-[#8a5440] text-white hover:bg-[#75402c]">Clear saved data</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
+              {savedSemesters.length === 0 ? (
+                <p className="history-empty">Save a complete semester to build a persistent credit-weighted CGPA record.</p>
+              ) : (
+                <div className="history-list">
+                  {savedSemesters.map((saved, index) => (
+                    <article key={saved.id} className="history-item">
+                      <div className="history-index">{String(index + 1).padStart(2, "0")}</div>
+                      <div className="min-w-0 flex-1">
+                        <h3>{saved.name}</h3>
+                        <p>{saved.subjects.length} subjects · {saved.totalWeightedPoints} weighted points</p>
+                      </div>
+                      <dl>
+                        <div><dt>SGPA</dt><dd>{saved.sgpa === null ? "—" : saved.sgpa.toFixed(2)}</dd></div>
+                        <div><dt>Credits</dt><dd>{saved.totalCredits}</dd></div>
+                      </dl>
+                      <div className="history-actions">
+                        <button type="button" className="history-action" onClick={() => editSavedSemester(saved)} aria-label={`Edit ${saved.name}`}><Pencil size={15} /> Edit</button>
+                        <button type="button" className="history-action history-delete" onClick={() => deleteSavedSemester(saved.id)} aria-label={`Delete ${saved.name}`}><Trash2 size={15} /> Delete</button>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              )}
             </section>
           </section>
 
@@ -488,9 +663,9 @@ export default function Home() {
                 />
                 <div className="overall-rule" />
                 <dl className="summary-list">
-                  <div><dt>Semesters recorded</dt><dd>{eligibleSemesters.length}</dd></div>
+                  <div><dt>Semesters recorded</dt><dd>{savedSemesters.length}</dd></div>
                   <div><dt>Credits recorded</dt><dd>{overallCredits || "—"}</dd></div>
-                  <div><dt>Semesters to review</dt><dd>{pendingSemesterCount ? pendingSemesterCount : "None"}</dd></div>
+                  <div><dt>Drafts to review</dt><dd>{pendingSemesterCount ? pendingSemesterCount : "None"}</dd></div>
                 </dl>
                 <p className="overall-formula">CGPA = Σ(SGPA × semester credits) ÷ Σ(semester credits)</p>
               </div>
@@ -500,7 +675,7 @@ export default function Home() {
               <img src="/manus-storage/gradebook-semester_6c21de1e.jpg" alt="" className="side-note-art" />
               <div className="relative max-w-[65%]">
                 <div className="eyebrow">Ledger note</div>
-                <p>A subject is recorded once its name, grade, and credits are complete. Correct a highlighted field to include its semester.</p>
+                <p>Save each complete semester to keep its subjects and credit-weighted result in this browser.</p>
               </div>
             </section>
 

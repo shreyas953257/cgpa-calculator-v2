@@ -19,4 +19,7 @@
 - [x] Verify normal-grade, DX-containing, and official 9.25 calculation scenarios.
 - [x] Add a responsive per-subject calculation audit with grade point, credits, weighted points, inclusion status, and exclusion reason.
 - [x] Ensure the audit derives its values from the same SGPA/CGPA calculation rules.
-- [ ] Re-run normal, DX, PP, and official 185 ÷ 20 = 9.25 test cases after the audit update.
+- [x] Re-run normal, DX, PP, and official 185 ÷ 20 = 9.25 test cases after the audit update.
+- [x] Add locally persisted saved-semester records with subjects, grade data, credits, weighted points, SGPA, and semester metadata.
+- [x] Add save, edit, delete, and confirmed clear-all history controls with an automatic credit-weighted CGPA across saved semesters.
+- [x] Verify local persistence after reload, multi-semester CGPA updates, DX/PP compatibility, and the official 9.25 case.

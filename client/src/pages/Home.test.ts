@@ -1,5 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { calculateSemester, getSubjectAudit, type Semester } from "./Home";
+import {
+  calculateSavedCgpa,
+  calculateSemester,
+  createSavedSemester,
+  getSubjectAudit,
+  loadSavedSemesters,
+  persistSavedSemesters,
+  type Semester,
+} from "./Home";
 
 const makeSemester = (name: string, subjects: Semester["subjects"]): Semester => ({
   id: name.toLowerCase().replaceAll(" ", "-"),
@@ -105,5 +113,34 @@ describe("CGPA Calculator formulas", () => {
       weightedPoints: 10,
       status: "Included",
     });
+  });
+
+  it("persists completed semesters and uses saved weighted points and credits for CGPA", () => {
+    const memory = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => memory.get(key) ?? null,
+      setItem: (key: string, value: string) => memory.set(key, value),
+      removeItem: (key: string) => memory.delete(key),
+    };
+    const first = createSavedSemester(makeSemester("Semester 1", [
+      { id: "math", name: "Mathematics", grade: "O", credits: "4" },
+      { id: "physics", name: "Physics", grade: "A+", credits: "3" },
+    ]), "2026-08-21T00:00:00.000Z");
+    const second = createSavedSemester(makeSemester("Semester 2", [
+      { id: "programming", name: "Programming", grade: "A", credits: "2" },
+      { id: "elective", name: "Elective", grade: "B", credits: "2" },
+    ]), "2026-08-21T00:01:00.000Z");
+
+    persistSavedSemesters([first], storage);
+    expect(loadSavedSemesters(storage)).toHaveLength(1);
+    persistSavedSemesters([first, second], storage);
+
+    const historyAfterReload = loadSavedSemesters(storage);
+    expect(historyAfterReload).toHaveLength(2);
+    expect(historyAfterReload[0].subjects[0]).toMatchObject({ gradePoint: 10, weightedPoints: 40 });
+    const overall = calculateSavedCgpa(historyAfterReload);
+    expect(overall.totalCredits).toBe(11);
+    expect(overall.totalWeightedPoints).toBe(95);
+    expect(overall.cgpa).toBeCloseTo(95 / 11, 8);
   });
 });
