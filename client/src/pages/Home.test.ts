@@ -72,15 +72,17 @@ describe("CGPA Calculator formulas", () => {
     expect(185 / 20).toBeCloseTo(9.25, 8);
   });
 
-  it("keeps DX credit-bearing at zero points while retaining PP as a separate 10-point grade state", () => {
+  it("excludes DX points and credits while retaining PP as a separate 10-point grade state", () => {
     const result = calculateSemester(makeSemester("Special grade handling", [
       { id: "dx-course", name: "DX course", grade: "DX", credits: "3" },
       { id: "pp-course", name: "PP course", grade: "PP", credits: "1" },
       { id: "o-course", name: "O course", grade: "O", credits: "2" },
     ]));
 
-    expect(result.totalCredits).toBe(6);
+    expect(result.totalCredits).toBe(3);
     expect(result.weightedPoints).toBe(30);
-    expect(result.sgpa).toBeCloseTo(5, 8);
+    expect(result.sgpa).toBeCloseTo(10, 8);
+    expect(result.excludedDxCount).toBe(1);
+    expect(result.excludedDxCredits).toBe(3);
   });
 });

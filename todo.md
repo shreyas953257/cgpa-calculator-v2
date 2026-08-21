@@ -14,3 +14,6 @@
 - [x] Re-examine the official 9.25 row at full resolution to determine the PP course credit and its grade-point cell value.
 - [x] Derive the PP credit and grade-point contribution from the official totals. PP supplies the missing 1 credit and 10 weighted points required by the printed 185/20 row.
 - [x] Correct the special-grade logic and regression test to reproduce the official 185 ÷ 20 = 9.25 exactly without rounding.
+- [x] Make DX an independent excluded special status that does not contribute points or credits to SGPA.
+- [x] Show a clear calculation note whenever one or more DX courses are excluded.
+- [ ] Verify normal-grade, DX-containing, and official 9.25 calculation scenarios.

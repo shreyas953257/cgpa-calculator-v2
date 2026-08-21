@@ -36,6 +36,8 @@ export type SemesterCalculation = {
   sgpa: number | null;
   validSubjectCount: number;
   incompleteRows: number;
+  excludedDxCount: number;
+  excludedDxCredits: number;
 };
 
 const gradePoints: Record<Exclude<Grade, "">, number> = {
@@ -78,8 +80,8 @@ const hasValidCredits = (value: string) => {
 const isSubjectComplete = (subject: Subject) =>
   subject.name.trim() !== "" && subject.grade !== "" && hasValidCredits(subject.credits);
 
-// Official result evidence: PP is a distinct 1-credit, 10-point course state in the verified 185/20 row; DX remains a zero-point, credit-bearing state.
-const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject);
+// Special-grade rules: PP remains a 10-point, credit-bearing grade state; DX is a distinct excluded status, not F.
+const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "DX";
 
 const isSubjectTouched = (subject: Subject) =>
   subject.name.trim() !== "" || subject.grade !== "" || subject.credits.trim() !== "";
@@ -94,6 +96,9 @@ const getSubjectError = (subject: Subject) => {
 
 export const calculateSemester = (semester: Semester): SemesterCalculation => {
   const validSubjects = semester.subjects.filter(isSgpaIncluded);
+  const excludedDxSubjects = semester.subjects.filter(
+    (subject) => isSubjectComplete(subject) && subject.grade === "DX",
+  );
   const totalCredits = validSubjects.reduce((sum, subject) => sum + Number(subject.credits), 0);
   const weightedPoints = validSubjects.reduce(
     (sum, subject) => sum + gradePoints[subject.grade as Exclude<Grade, "">] * Number(subject.credits),
@@ -108,6 +113,8 @@ export const calculateSemester = (semester: Semester): SemesterCalculation => {
     incompleteRows: semester.subjects.filter(
       (subject) => isSubjectTouched(subject) && !isSubjectComplete(subject),
     ).length,
+    excludedDxCount: excludedDxSubjects.length,
+    excludedDxCredits: excludedDxSubjects.reduce((sum, subject) => sum + Number(subject.credits), 0),
   };
 };
 
@@ -315,7 +322,7 @@ export default function Home() {
                                 aria-invalid={Boolean(error && subject.grade === "")}
                               >
                                 <option value="">Select grade</option>
-                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{`${grade} · ${point} points`}</option>)}
+                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{grade === "DX" ? "DX · excluded from SGPA" : `${grade} · ${point} points`}</option>)}
                               </select>
                             </div>
                             <div>
@@ -359,6 +366,9 @@ export default function Home() {
                     ) : (
                       <p className="calculation-note"><ChevronRight size={15} /> Complete a subject row to calculate SGPA.</p>
                     )}
+                    {calculation.excludedDxCount > 0 && (
+                      <p className="validation-note mt-1"><CircleAlert size={15} /> {calculation.excludedDxCount} DX {calculation.excludedDxCount === 1 ? "subject is" : "subjects are"} excluded: {calculation.excludedDxCredits} {calculation.excludedDxCredits === 1 ? "credit is" : "credits are"} not counted in SGPA.</p>
+                    )}
                   </div>
                   <Button variant="outline" onClick={() => addSubject(semester.id)} className="border-[#b8c9c5] bg-[#fbfaf6] text-[#0e766e] hover:bg-[#e2f0ed] active:scale-[.97]">
                     <Plus size={16} /> Add subject
@@ -373,7 +383,7 @@ export default function Home() {
                 <h2 id="grade-key-heading" className="text-lg font-semibold">Grade scale</h2>
               </div>
               <div className="grade-pills" aria-label="Grade point values">
-                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {point}</span>)}
+                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {grade === "DX" ? "excluded" : point}</span>)}
               </div>
             </section>
           </section>
