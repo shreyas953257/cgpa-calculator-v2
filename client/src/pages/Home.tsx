@@ -40,6 +40,14 @@ export type SemesterCalculation = {
   excludedDxCredits: number;
 };
 
+export type SubjectAudit = {
+  gradePoint: number | null;
+  credits: number | null;
+  weightedPoints: number | null;
+  status: "Included" | "Excluded";
+  reason: string;
+};
+
 const gradePoints: Record<Exclude<Grade, "">, number> = {
   O: 10,
   "A+": 9,
@@ -92,6 +100,39 @@ const getSubjectError = (subject: Subject) => {
   if (subject.grade === "") return "Choose a grade.";
   if (!hasValidCredits(subject.credits)) return "Enter an official credit value of 0 or more.";
   return null;
+};
+
+export const getSubjectAudit = (subject: Subject): SubjectAudit => {
+  const credits = hasValidCredits(subject.credits) ? Number(subject.credits) : null;
+
+  if (!isSubjectComplete(subject)) {
+    return {
+      gradePoint: subject.grade ? gradePoints[subject.grade as Exclude<Grade, "">] : null,
+      credits,
+      weightedPoints: null,
+      status: "Excluded",
+      reason: "Complete the subject, grade, and credits to include this row.",
+    };
+  }
+
+  if (subject.grade === "DX") {
+    return {
+      gradePoint: null,
+      credits,
+      weightedPoints: null,
+      status: "Excluded",
+      reason: "DX is excluded from both SGPA points and credits.",
+    };
+  }
+
+  const gradePoint = gradePoints[subject.grade as Exclude<Grade, "">];
+  return {
+    gradePoint,
+    credits,
+    weightedPoints: gradePoint * Number(subject.credits),
+    status: "Included",
+    reason: subject.grade === "PP" ? "PP follows this institution’s included grade rule." : "Counted in the SGPA calculation.",
+  };
 };
 
 export const calculateSemester = (semester: Semester): SemesterCalculation => {
@@ -356,6 +397,51 @@ export default function Home() {
                     })
                   )}
                 </div>
+
+                {semester.subjects.length > 0 && (
+                  <section className="calculation-audit" aria-labelledby={`audit-heading-${semester.id}`}>
+                    <div className="audit-heading">
+                      <div>
+                        <div className="eyebrow">Calculation audit</div>
+                        <h3 id={`audit-heading-${semester.id}`}>Every course, accounted for</h3>
+                      </div>
+                      <span>{calculation.validSubjectCount} included</span>
+                    </div>
+                    <div className="audit-scroll">
+                      <table>
+                        <caption className="sr-only">Subject-level SGPA calculation audit for {semester.name || `semester ${semesterIndex + 1}`}</caption>
+                        <thead>
+                          <tr>
+                            <th scope="col">Subject</th>
+                            <th scope="col">Grade / status</th>
+                            <th scope="col">Grade point</th>
+                            <th scope="col">Credits</th>
+                            <th scope="col">Weighted points</th>
+                            <th scope="col">Calculation status</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {semester.subjects.map((subject, subjectIndex) => {
+                            const audit = getSubjectAudit(subject);
+                            return (
+                              <tr key={`audit-${subject.id}`}>
+                                <th scope="row">{subject.name.trim() || `Subject ${subjectIndex + 1}`}</th>
+                                <td>{subject.grade || "—"}</td>
+                                <td>{audit.gradePoint ?? "—"}</td>
+                                <td>{audit.credits ?? "—"}</td>
+                                <td>{audit.weightedPoints ?? "—"}</td>
+                                <td>
+                                  <span className={`audit-status ${audit.status === "Included" ? "audit-status-included" : "audit-status-excluded"}`}>{audit.status}</span>
+                                  <span className="audit-reason">{audit.reason}</span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                )}
 
                 <div className="semester-footer">
                   <div>

@@ -16,4 +16,7 @@
 - [x] Correct the special-grade logic and regression test to reproduce the official 185 ÷ 20 = 9.25 exactly without rounding.
 - [x] Make DX an independent excluded special status that does not contribute points or credits to SGPA.
 - [x] Show a clear calculation note whenever one or more DX courses are excluded.
-- [ ] Verify normal-grade, DX-containing, and official 9.25 calculation scenarios.
+- [x] Verify normal-grade, DX-containing, and official 9.25 calculation scenarios.
+- [x] Add a responsive per-subject calculation audit with grade point, credits, weighted points, inclusion status, and exclusion reason.
+- [x] Ensure the audit derives its values from the same SGPA/CGPA calculation rules.
+- [ ] Re-run normal, DX, PP, and official 185 ÷ 20 = 9.25 test cases after the audit update.

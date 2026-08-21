@@ -124,6 +124,20 @@
   .form-control-error:focus { border-color: #a94d35; box-shadow: 0 0 0 3px rgb(183 92 66 / 0.13); }
   .input-error { display: flex; align-items: center; gap: 0.35rem; margin-top: 0.55rem; color: #a94d35; font-size: 0.73rem; font-weight: 600; }
   .empty-subject-state { display: flex; align-items: center; gap: 0.65rem; margin: 0.75rem 1.15rem; padding: 1.1rem; border: 1px dashed #b7c8c4; border-radius: 0.85rem; background: #f5fbf9; color: #52706a; font-size: 0.86rem; }
+  .calculation-audit { margin: 1rem 1.15rem 0; border: 1px solid #d7d0c2; border-radius: 0.55rem; background: #fcfaf4; overflow: hidden; }
+  .audit-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; padding: 0.8rem 0.95rem; border-bottom: 1px solid #d7d0c2; background: #f2ecdf; }
+  .audit-heading h3 { margin-top: 0.2rem; color: #25312d; font-family: "Fraunces", Georgia, serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
+  .audit-heading > span { color: #0e766e; font-size: 0.69rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+  .audit-scroll { overflow-x: auto; }
+  .calculation-audit table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 0.76rem; }
+  .calculation-audit th, .calculation-audit td { padding: 0.67rem 0.78rem; border-bottom: 1px solid #e4ded2; text-align: left; vertical-align: top; }
+  .calculation-audit thead th { background: #f8f4eb; color: #60706a; font-size: 0.61rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap; }
+  .calculation-audit tbody th { min-width: 152px; color: #26322e; font-weight: 700; }
+  .calculation-audit tbody tr:last-child th, .calculation-audit tbody tr:last-child td { border-bottom: 0; }
+  .audit-status { display: inline-block; padding: 0.17rem 0.35rem; border: 1px solid; border-radius: 0.14rem; font-size: 0.63rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; white-space: nowrap; }
+  .audit-status-included { border-color: #9ec8bf; background: #f0faf7; color: #0e766e; }
+  .audit-status-excluded { border-color: #e2b7a8; background: #fff7f2; color: #9a563f; }
+  .audit-reason { display: block; max-width: 190px; margin-top: 0.3rem; color: #62706a; font-size: 0.68rem; line-height: 1.4; }
   .semester-footer { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.8rem; padding: 1rem 1.15rem; border-top: 1px solid #ded8cb; background: #faf8f2; }
   .calculation-note, .validation-note { display: flex; align-items: center; gap: 0.32rem; font-size: 0.72rem; line-height: 1.45; }
   .calculation-note { color: #5e6f69; }
@@ -157,6 +171,8 @@
 @media (max-width: 500px) {
   .semester-chapter-header { padding: 1.1rem 0.9rem 0.95rem; }
   .subject-row { padding-inline: 0.9rem; }
+  .calculation-audit { margin-inline: 0.9rem; }
+  .audit-heading { align-items: flex-start; flex-direction: column; }
   .semester-footer { padding-inline: 0.9rem; }
   .grade-key { align-items: flex-start; flex-direction: column; }
   .grade-pills { justify-content: flex-start; }

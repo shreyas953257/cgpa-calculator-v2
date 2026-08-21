@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { calculateSemester, type Semester } from "./Home";
+import { calculateSemester, getSubjectAudit, type Semester } from "./Home";
 
 const makeSemester = (name: string, subjects: Semester["subjects"]): Semester => ({
   id: name.toLowerCase().replaceAll(" ", "-"),
@@ -84,5 +84,26 @@ describe("CGPA Calculator formulas", () => {
     expect(result.sgpa).toBeCloseTo(10, 8);
     expect(result.excludedDxCount).toBe(1);
     expect(result.excludedDxCredits).toBe(3);
+  });
+
+  it("reports audit values from the same inclusion rules as the calculation", () => {
+    expect(getSubjectAudit({ id: "normal", name: "Normal course", grade: "A", credits: "3" })).toMatchObject({
+      gradePoint: 8,
+      credits: 3,
+      weightedPoints: 24,
+      status: "Included",
+    });
+    expect(getSubjectAudit({ id: "dx", name: "DX course", grade: "DX", credits: "3" })).toMatchObject({
+      gradePoint: null,
+      credits: 3,
+      weightedPoints: null,
+      status: "Excluded",
+    });
+    expect(getSubjectAudit({ id: "pp", name: "PP course", grade: "PP", credits: "1" })).toMatchObject({
+      gradePoint: 10,
+      credits: 1,
+      weightedPoints: 10,
+      status: "Included",
+    });
   });
 });
