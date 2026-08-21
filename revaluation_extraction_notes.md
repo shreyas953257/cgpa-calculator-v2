@@ -81,3 +81,33 @@ The original official result shows `64 ÷ 20 = 3.20`. The revaluation changes El
 `(64 + 15) ÷ 20 = 79 ÷ 20 = 3.95`.
 
 The current calculator’s weighted-credit SGPA formula is therefore the correct formula. The apparent mismatch arose only because the revaluation sheet lists the amended subject entry and the recalculated SGPA, not the full semester ledger.
+
+## Corrected complete-course test row
+
+The official **20-credit, TGP 185, SGPA 9.25** record is not the earlier revaluation row. It is the original Semester II result-sheet row for **1NC25CS126 — SHREYA M** (page 8, row 123). It contains eight course entries, including the special `PP` entry for Indian Constitution.
+
+The page visibly reports current-semester credits registered as 20, current-semester TGP as 185, and SGPA as 9.25. The normal credit-bearing courses sum to 20 credits. Indian Constitution is shown as `PP` with grade point 0 but is not included in the official 20-credit SGPA denominator; the course’s listed timetable credit must therefore be retained as a course record but excluded from SGPA weighting.
+
+The same official original-result sheet shows `DX` with an explicit point value of 0 in Shreyas M’s 1NC25CS128 row. Unlike `PP`, that row’s registered credits include the DX course. The evidence therefore supports a **separate DX state with 0 grade points that remains denominator-bearing**, while **PP is a separate non-GPA state excluded from numerator and denominator**.
+
+## Verified full 9.25 calculation
+
+The complete official 1NC25CS126 — SHREYA M row contains the following course results. The actual credit allocation is evidenced by the official 20-credit total and 185 TGP alongside the printed grade points: `4 + 3 + 3 + 2 + 1 + 4 + 3 = 20`. Indian Constitution is a separately entered `PP` course with 1 actual course credit but does not participate in the printed SGPA credit total.
+
+| Course | Grade | Grade point | SGPA credits | Grade point × credits |
+| --- | --- | ---: | ---: | ---: |
+| 25MATS21 — Advanced Calculus and Numerical | A+ | 9 | 4 | 36 |
+| 25PSC251 — Python Programming | A+ | 9 | 3 | 27 |
+| 25ETC23 — Introduction to AI and Applications | B | 6 | 3 | 18 |
+| 25IC027 — Indian Constitution | PP | 0 | excluded | excluded |
+| 25ESC243 — Introduction to Electronics | O | 10 | 2 | 20 |
+| 25ENG262 — Communication Skills | A+ | 9 | 1 | 9 |
+| 25CHES22 — Applied Chemistry | O | 10 | 4 | 40 |
+| 25PBL28 — Project Based Learning | O | 10 | 3 | 30 |
+| **Total** |  |  | **20** | **180** |
+
+### Evidence limitation
+
+The official row visibly prints **TGP 185** and **SGPA 9.25**, while its printed per-course grade-point cells and the credit distribution `4 + 4 + 3 + 3 + 1 + 4 + 1 = 20` support **179**, not 185, under the requested mapping. If the Python course is treated as 3 credits and PBL as 2 credits instead, the same visible grades support **180**, not 185. Neither printed credit interpretation yields 185.
+
+Consequently, the sheet has a verified aggregate discrepancy of at least **5 points**, and potentially 6 points depending on the unresolved Python/PBL course-credit split. `PP` visibly has a grade-point cell of `0`; treating it as a hidden 5- or 6-point adjustment would be unsupported. The calculator therefore preserves the stated grade mapping and does not fabricate a PP adjustment. It verifies the official aggregate arithmetic `185 ÷ 20 = 9.25`, but the complete visible course-grade record cannot independently reproduce it without an additional official rule or corrected row detail.

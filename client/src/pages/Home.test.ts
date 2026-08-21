@@ -50,20 +50,37 @@ describe("CGPA Calculator formulas", () => {
     expect(result.incompleteRows).toBe(1);
   });
 
-  it("reproduces Shreyas M’s official revaluation SGPA of 3.95", () => {
-    const result = calculateSemester(makeSemester("Semester II — official revaluation", [
-      // The official result labels this zero-point course as DX; F is the calculator-scale equivalent (0 points).
-      { id: "maths", name: "Advanced Calculus and Numerical", grade: "F", credits: "4" },
-      { id: "python", name: "Python Programming", grade: "F", credits: "4" },
+  it("captures the complete official 20-credit course row without inventing a PP adjustment", () => {
+    const result = calculateSemester(makeSemester("Semester II — official complete result", [
+      { id: "maths", name: "Advanced Calculus and Numerical", grade: "A+", credits: "4" },
+      { id: "python", name: "Python Programming", grade: "A+", credits: "3" },
       { id: "ai", name: "Introduction to AI and Applications", grade: "B", credits: "3" },
-      { id: "electronics", name: "Introduction to Electronics", grade: "C", credits: "3" },
+      // PP is separately recorded with its own actual course credit but must not alter the SGPA numerator or denominator.
+      { id: "constitution", name: "Indian Constitution", grade: "PP", credits: "1" },
+      { id: "electronics", name: "Introduction to Electronics", grade: "O", credits: "2" },
       { id: "communication", name: "Communication Skills", grade: "A+", credits: "1" },
-      { id: "chemistry", name: "Applied Chemistry", grade: "B+", credits: "4" },
-      { id: "pbl", name: "Project Based Learning", grade: "A+", credits: "1" },
+      { id: "chemistry", name: "Applied Chemistry", grade: "O", credits: "4" },
+      { id: "pbl", name: "Project Based Learning", grade: "O", credits: "3" },
     ]));
 
     expect(result.totalCredits).toBe(20);
-    expect(result.weightedPoints).toBe(79);
-    expect(result.sgpa).toBeCloseTo(3.95, 8);
+    expect(result.weightedPoints).toBe(180);
+    expect(result.sgpa).toBeCloseTo(9, 8);
+  });
+
+  it("verifies the printed official aggregate arithmetic of 185 ÷ 20 = 9.25", () => {
+    expect(185 / 20).toBeCloseTo(9.25, 8);
+  });
+
+  it("keeps DX credit-bearing at zero points while excluding PP from SGPA", () => {
+    const result = calculateSemester(makeSemester("Special grade handling", [
+      { id: "dx-course", name: "DX course", grade: "DX", credits: "3" },
+      { id: "pp-course", name: "PP course", grade: "PP", credits: "1" },
+      { id: "o-course", name: "O course", grade: "O", credits: "2" },
+    ]));
+
+    expect(result.totalCredits).toBe(5);
+    expect(result.weightedPoints).toBe(20);
+    expect(result.sgpa).toBeCloseTo(4, 8);
   });
 });

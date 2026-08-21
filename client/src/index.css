@@ -77,6 +77,8 @@
   .brand-lockup small { margin-top: 0.25rem; color: #64716c; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 
   .hero-ledger { box-shadow: 0 14px 32px rgb(69 57 39 / 0.07); }
+  .hero-ledger img { filter: saturate(0.76) contrast(1.06) sepia(0.09); }
+  .hero-ledger::before { content: ""; position: absolute; inset: 0 0 0 48%; pointer-events: none; opacity: 0.34; background: repeating-linear-gradient(to bottom, transparent 0 25px, rgb(14 118 110 / 0.18) 25px 26px); mask-image: linear-gradient(to right, transparent, black 30%, black); }
   .hero-ledger::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0.35; background-image: linear-gradient(to bottom, transparent 27px, rgb(120 115 95 / 0.11) 28px); background-size: 100% 28px; mask-image: linear-gradient(to right, black 15%, transparent 65%); }
   .eyebrow { display: flex; align-items: center; gap: 0.4rem; color: #0e766e; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
   .hero-ledger h1 { margin-top: 0.8rem; max-width: 650px; font-family: "Fraunces", Georgia, serif; font-size: clamp(2.15rem, 4.5vw, 4rem); font-weight: 700; letter-spacing: -0.055em; line-height: 1.02; }
@@ -93,10 +95,10 @@
   .semester-name-input::placeholder { color: #87918a; }
   .semester-subtitle { margin-top: 0.35rem; color: #69736f; font-size: 0.79rem; }
 
-  .result-stamp { min-width: 90px; padding: 0.58rem 0.65rem; border: 1px solid #8cb5ac; border-radius: 0.45rem; background: #f9fdfb; text-align: right; box-shadow: inset 0 0 0 2px #e3f1ed; }
+  .result-stamp { min-width: 90px; padding: 0.58rem 0.65rem; border: 1px solid #7da99f; border-radius: 0.2rem; background: #f9fdfb; text-align: right; box-shadow: inset 0 0 0 2px #e3f1ed, inset 0 0 0 4px #f9fdfb; }
   .result-stamp-label, .result-stamp-note { display: block; }
   .result-stamp-label { color: #39736d; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
-  .result-stamp-value { display: block; margin-top: 0.1rem; color: #0e766e; font-family: "Fraunces", Georgia, serif; font-size: 1.45rem; font-variant-numeric: tabular-nums; letter-spacing: -0.045em; line-height: 1; }
+  .result-stamp-value { display: block; margin-top: 0.1rem; color: #075b54; font-family: "Fraunces", Georgia, serif; font-size: 1.55rem; font-variant-numeric: tabular-nums; letter-spacing: -0.045em; line-height: 1; }
   .result-stamp-note { margin-top: 0.28rem; color: #64716c; font-size: 0.64rem; white-space: nowrap; }
   .result-stamp-featured { width: 100%; padding: 1.1rem 1.15rem; border-color: #95c6bd; border-radius: 0.55rem; background: #0b5f5a; box-shadow: inset 0 0 0 3px #0e766e; text-align: left; }
   .result-stamp-featured .result-stamp-label { color: #bfe6df; }
@@ -109,15 +111,15 @@
   .icon-button-danger:hover, .remove-subject-button:hover { background: #f4e3d7; color: #75402c; }
   .icon-button-danger:active, .remove-subject-button:active { transform: scale(0.97); }
 
-  .subjects-label-row { display: none; grid-template-columns: minmax(0, 1fr) 136px 112px 42px; gap: 0.75rem; padding: 0.8rem 1.15rem 0.2rem; color: #7a817c; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; }
-  .subject-row { padding: 0.78rem 1.15rem; border-bottom: 1px solid #ebe5da; }
+  .subjects-label-row { display: none; grid-template-columns: minmax(0, 1fr) 136px 112px 42px; gap: 0.75rem; padding: 0.8rem 1.15rem 0.42rem; border-bottom: 1px solid #d7d0c2; color: #59716b; font-size: 0.64rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; }
+  .subject-row { position: relative; padding: 0.78rem 1.15rem; border-bottom: 1px solid #ded8cb; background: repeating-linear-gradient(to bottom, transparent 0 39px, rgb(199 191 176 / 0.19) 39px 40px); }
   .subject-row:last-child { border-bottom: 0; }
-  .field-label { display: block; margin-bottom: 0.38rem; color: #53605a; font-size: 0.72rem; font-weight: 700; }
-  .form-control { display: block; width: 100%; height: 2.75rem; border: 1px solid #d9d3c6; border-radius: 0.65rem; background: #fffdfa; padding: 0 0.78rem; color: #26322e; font-size: 0.88rem; transition: border-color 160ms cubic-bezier(.23,1,.32,1), box-shadow 160ms cubic-bezier(.23,1,.32,1), background-color 160ms cubic-bezier(.23,1,.32,1); }
+  .field-label { display: block; margin-bottom: 0.38rem; color: #53605a; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .form-control { display: block; width: 100%; height: 2.75rem; border: 0; border-bottom: 2px solid #c5beb1; border-radius: 0; background: rgb(255 253 250 / 0.78); padding: 0 0.62rem; color: #26322e; font-size: 0.88rem; transition: border-color 160ms cubic-bezier(.23,1,.32,1), box-shadow 160ms cubic-bezier(.23,1,.32,1), background-color 160ms cubic-bezier(.23,1,.32,1); }
   select.form-control { padding-right: 2rem; }
   .form-control::placeholder { color: #9a9e98; }
-  .form-control:hover { border-color: #b5c9c3; }
-  .form-control:focus { border-color: #0e766e; outline: 0; box-shadow: 0 0 0 3px rgb(14 118 110 / 0.12); }
+  .form-control:hover { border-color: #85aaa2; background: #fbfffd; }
+  .form-control:focus { border-color: #0e766e; outline: 0; box-shadow: 0 3px 0 rgb(14 118 110 / 0.1); }
   .form-control-error { border-color: #b75c42; background: #fff9f5; }
   .form-control-error:focus { border-color: #a94d35; box-shadow: 0 0 0 3px rgb(183 92 66 / 0.13); }
   .input-error { display: flex; align-items: center; gap: 0.35rem; margin-top: 0.55rem; color: #a94d35; font-size: 0.73rem; font-weight: 600; }
@@ -144,7 +146,7 @@
 
   .grade-key { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.15rem 1.1rem; border: 1px solid #d2cbbe; border-radius: 1rem; background: #f9f6ee; }
   .grade-pills { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.4rem; }
-  .grade-pills span { padding: 0.35rem 0.5rem; border: 1px solid #b9d8d1; border-radius: 0.28rem; background: #f5fcfa; color: #476660; font-size: 0.72rem; white-space: nowrap; box-shadow: inset 0 -1px 0 rgb(14 118 110 / 0.07); }
+  .grade-pills span { padding: 0.35rem 0.5rem; border: 1px solid #d3cbbd; border-radius: 0.16rem; background: #fffdf7; color: #53605a; font-size: 0.72rem; white-space: nowrap; box-shadow: inset 0 -1px 0 rgb(31 42 40 / 0.04); }
   .grade-pills b { color: #0e766e; font-weight: 700; }
 }
 

@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 
-export type Grade = "" | "O" | "A+" | "A" | "B+" | "B" | "C" | "P" | "F";
+export type Grade = "" | "O" | "A+" | "A" | "B+" | "B" | "C" | "P" | "F" | "PP" | "DX";
 
 export type Subject = {
   id: string;
@@ -47,9 +47,13 @@ const gradePoints: Record<Exclude<Grade, "">, number> = {
   C: 5,
   P: 4,
   F: 0,
+  PP: 0,
+  DX: 0,
 };
 
-const gradeOptions = Object.entries(gradePoints) as [Exclude<Grade, "">, number][];
+const gradeOptions: [Exclude<Grade, "">, number][] = [
+  ["O", 10], ["A+", 9], ["A", 8], ["B+", 7], ["B", 6], ["C", 5], ["P", 4], ["F", 0], ["PP", 0], ["DX", 0],
+];
 
 const createId = () => Math.random().toString(36).slice(2, 10);
 
@@ -74,6 +78,9 @@ const hasPositiveCredits = (value: string) => {
 const isSubjectComplete = (subject: Subject) =>
   subject.name.trim() !== "" && subject.grade !== "" && hasPositiveCredits(subject.credits);
 
+// Official result evidence: PP is recorded but excluded from SGPA credits and points; DX remains a zero-point, credit-bearing state.
+const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "PP";
+
 const isSubjectTouched = (subject: Subject) =>
   subject.name.trim() !== "" || subject.grade !== "" || subject.credits.trim() !== "";
 
@@ -86,7 +93,7 @@ const getSubjectError = (subject: Subject) => {
 };
 
 export const calculateSemester = (semester: Semester): SemesterCalculation => {
-  const validSubjects = semester.subjects.filter(isSubjectComplete);
+  const validSubjects = semester.subjects.filter(isSgpaIncluded);
   const totalCredits = validSubjects.reduce((sum, subject) => sum + Number(subject.credits), 0);
   const weightedPoints = validSubjects.reduce(
     (sum, subject) => sum + gradePoints[subject.grade as Exclude<Grade, "">] * Number(subject.credits),
@@ -308,7 +315,7 @@ export default function Home() {
                                 aria-invalid={Boolean(error && subject.grade === "")}
                               >
                                 <option value="">Select grade</option>
-                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{grade} · {point} points</option>)}
+                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{grade === "PP" ? "PP · excluded from SGPA" : `${grade} · ${point} points`}</option>)}
                               </select>
                             </div>
                             <div>
@@ -366,7 +373,7 @@ export default function Home() {
                 <h2 id="grade-key-heading" className="text-lg font-semibold">Grade scale</h2>
               </div>
               <div className="grade-pills" aria-label="Grade point values">
-                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {point}</span>)}
+                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {grade === "PP" ? "excluded" : point}</span>)}
               </div>
             </section>
           </section>

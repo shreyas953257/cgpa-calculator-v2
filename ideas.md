@@ -86,3 +86,5 @@ The mark is a simple **stacked ledger corner**: three offset teal rule marks tha
 - Imagery uses tactile academic materials—ruled paper, planners, pencils, grade sheets, and ledger pages—with teal accents and warm natural light.
 - The calculation rail reads as an official academic standing card through flat scholarly teal, inset rules, and high-contrast tabular numerals rather than glass-like effects.
 - Supporting copy stays direct, encouraging, and specific to semesters, grades, credits, and academic standing.
+- Course-entry controls use ruled-row rhythm, compact uppercase labels, and bottom-rule inputs so the active worksheet reads as an editable academic ledger rather than a generic form.
+- Local SGPA and final CGPA values share a double-rule, official-record stamp treatment; teal is reserved for standing, correct data, actions, and ledger marks.
