@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { useMemo, useState } from "react";
 
-export type Grade = "" | "A+" | "A" | "B+" | "B" | "C" | "D" | "F";
+export type Grade = "" | "O" | "A+" | "A" | "B+" | "B" | "C" | "P" | "F";
 
 export type Subject = {
   id: string;
@@ -39,12 +39,13 @@ export type SemesterCalculation = {
 };
 
 const gradePoints: Record<Exclude<Grade, "">, number> = {
-  "A+": 10,
-  A: 9,
-  "B+": 8,
-  B: 7,
-  C: 6,
-  D: 5,
+  O: 10,
+  "A+": 9,
+  A: 8,
+  "B+": 7,
+  B: 6,
+  C: 5,
+  P: 4,
   F: 0,
 };
 
@@ -362,7 +363,7 @@ export default function Home() {
             <section className="grade-key" aria-labelledby="grade-key-heading">
               <div>
                 <div className="eyebrow">Reference</div>
-                <h2 id="grade-key-heading" className="text-lg font-semibold">Default grade points</h2>
+                <h2 id="grade-key-heading" className="text-lg font-semibold">Grade scale</h2>
               </div>
               <div className="grade-pills" aria-label="Grade point values">
                 {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {point}</span>)}
@@ -380,13 +381,13 @@ export default function Home() {
                   featured
                   label="FINAL CGPA"
                   value={cgpa === null ? "—" : cgpa.toFixed(2)}
-                  note={overallCredits > 0 ? `${overallCredits} completed credits` : "Waiting for complete semesters"}
+                  note={overallCredits > 0 ? `${overallCredits} credits recorded` : "Complete a semester to record standing"}
                 />
                 <div className="overall-rule" />
                 <dl className="summary-list">
-                  <div><dt>Completed semesters</dt><dd>{eligibleSemesters.length}</dd></div>
-                  <div><dt>Included credits</dt><dd>{overallCredits || "—"}</dd></div>
-                  <div><dt>Pending review</dt><dd>{pendingSemesterCount ? pendingSemesterCount : "None"}</dd></div>
+                  <div><dt>Semesters recorded</dt><dd>{eligibleSemesters.length}</dd></div>
+                  <div><dt>Credits recorded</dt><dd>{overallCredits || "—"}</dd></div>
+                  <div><dt>Semesters to review</dt><dd>{pendingSemesterCount ? pendingSemesterCount : "None"}</dd></div>
                 </dl>
                 <p className="overall-formula">CGPA = Σ(SGPA × semester credits) ÷ Σ(semester credits)</p>
               </div>
@@ -395,13 +396,13 @@ export default function Home() {
             <section className="side-note relative overflow-hidden">
               <img src="/manus-storage/gradebook-semester_6c21de1e.jpg" alt="" className="side-note-art" />
               <div className="relative max-w-[65%]">
-                <div className="eyebrow">A quick note</div>
-                <p>Only complete subject rows are included. Correct a highlighted field to bring the semester back into the calculation.</p>
+                <div className="eyebrow">Ledger note</div>
+                <p>A subject is recorded once its name, grade, and credits are complete. Correct a highlighted field to include its semester.</p>
               </div>
             </section>
 
             <Button variant="outline" onClick={resetCalculator} className="mt-4 w-full border-[#c7bdb0] bg-transparent text-[#6a4f3f] hover:bg-[#eee1d6] active:scale-[.97]">
-              <RefreshCw size={16} /> Reset calculator
+              <RefreshCw size={16} /> Clear this ledger
             </Button>
           </aside>
         </div>

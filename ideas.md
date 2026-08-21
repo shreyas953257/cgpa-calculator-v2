@@ -80,3 +80,9 @@ The mark is a simple **stacked ledger corner**: three offset teal rule marks tha
 ## Signature Brand Color
 
 **Ledger Teal — #0E766E**
+
+## Style Decisions
+
+- Imagery uses tactile academic materials—ruled paper, planners, pencils, grade sheets, and ledger pages—with teal accents and warm natural light.
+- The calculation rail reads as an official academic standing card through flat scholarly teal, inset rules, and high-contrast tabular numerals rather than glass-like effects.
+- Supporting copy stays direct, encouraging, and specific to semesters, grades, credits, and academic standing.
