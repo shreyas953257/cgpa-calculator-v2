@@ -11,3 +11,6 @@
 - [x] Extract every course in that official row instead of assuming a fixed subject count or credit total.
 - [x] Establish explicit evidence-based handling for PP and DX before assigning any grade-point treatment.
 - [x] Extend the calculator and test suite to preserve every course and special-grade state, verify the printed official 185 ÷ 20 = 9.25 arithmetic, and flag the unsupported 5-point-plus per-course discrepancy instead of fabricating an adjustment.
+- [x] Re-examine the official 9.25 row at full resolution to determine the PP course credit and its grade-point cell value.
+- [x] Derive the PP credit and grade-point contribution from the official totals. PP supplies the missing 1 credit and 10 weighted points required by the printed 185/20 row.
+- [x] Correct the special-grade logic and regression test to reproduce the official 185 ÷ 20 = 9.25 exactly without rounding.

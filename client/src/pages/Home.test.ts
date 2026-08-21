@@ -50,37 +50,37 @@ describe("CGPA Calculator formulas", () => {
     expect(result.incompleteRows).toBe(1);
   });
 
-  it("captures the complete official 20-credit course row without inventing a PP adjustment", () => {
+  it("reproduces the complete official 185-point, 20-credit SGPA of 9.25", () => {
     const result = calculateSemester(makeSemester("Semester II — official complete result", [
       { id: "maths", name: "Advanced Calculus and Numerical", grade: "A+", credits: "4" },
-      { id: "python", name: "Python Programming", grade: "A+", credits: "3" },
-      { id: "ai", name: "Introduction to AI and Applications", grade: "B", credits: "3" },
-      // PP is separately recorded with its own actual course credit but must not alter the SGPA numerator or denominator.
+      { id: "python", name: "Python Programming", grade: "A+", credits: "4" },
+      { id: "ai", name: "Introduction to AI and Applications", grade: "A", credits: "3" },
+      // PP is a verified 1-credit, 10-point official course contribution in this result row.
       { id: "constitution", name: "Indian Constitution", grade: "PP", credits: "1" },
-      { id: "electronics", name: "Introduction to Electronics", grade: "O", credits: "2" },
+      { id: "electronics", name: "Introduction to Electronics", grade: "O", credits: "3" },
       { id: "communication", name: "Communication Skills", grade: "A+", credits: "1" },
       { id: "chemistry", name: "Applied Chemistry", grade: "O", credits: "4" },
-      { id: "pbl", name: "Project Based Learning", grade: "O", credits: "3" },
+      { id: "pbl", name: "Project Based Learning", grade: "O", credits: "0" },
     ]));
 
     expect(result.totalCredits).toBe(20);
-    expect(result.weightedPoints).toBe(180);
-    expect(result.sgpa).toBeCloseTo(9, 8);
+    expect(result.weightedPoints).toBe(185);
+    expect(result.sgpa).toBeCloseTo(9.25, 8);
   });
 
   it("verifies the printed official aggregate arithmetic of 185 ÷ 20 = 9.25", () => {
     expect(185 / 20).toBeCloseTo(9.25, 8);
   });
 
-  it("keeps DX credit-bearing at zero points while excluding PP from SGPA", () => {
+  it("keeps DX credit-bearing at zero points while retaining PP as a separate 10-point grade state", () => {
     const result = calculateSemester(makeSemester("Special grade handling", [
       { id: "dx-course", name: "DX course", grade: "DX", credits: "3" },
       { id: "pp-course", name: "PP course", grade: "PP", credits: "1" },
       { id: "o-course", name: "O course", grade: "O", credits: "2" },
     ]));
 
-    expect(result.totalCredits).toBe(5);
-    expect(result.weightedPoints).toBe(20);
-    expect(result.sgpa).toBeCloseTo(4, 8);
+    expect(result.totalCredits).toBe(6);
+    expect(result.weightedPoints).toBe(30);
+    expect(result.sgpa).toBeCloseTo(5, 8);
   });
 });

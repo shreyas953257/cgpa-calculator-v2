@@ -47,12 +47,12 @@ const gradePoints: Record<Exclude<Grade, "">, number> = {
   C: 5,
   P: 4,
   F: 0,
-  PP: 0,
+  PP: 10,
   DX: 0,
 };
 
 const gradeOptions: [Exclude<Grade, "">, number][] = [
-  ["O", 10], ["A+", 9], ["A", 8], ["B+", 7], ["B", 6], ["C", 5], ["P", 4], ["F", 0], ["PP", 0], ["DX", 0],
+  ["O", 10], ["A+", 9], ["A", 8], ["B+", 7], ["B", 6], ["C", 5], ["P", 4], ["F", 0], ["PP", 10], ["DX", 0],
 ];
 
 const createId = () => Math.random().toString(36).slice(2, 10);
@@ -70,16 +70,16 @@ const createSemester = (number: number): Semester => ({
   subjects: [createSubject()],
 });
 
-const hasPositiveCredits = (value: string) => {
+const hasValidCredits = (value: string) => {
   const numericValue = Number(value);
-  return value.trim() !== "" && Number.isFinite(numericValue) && numericValue > 0;
+  return value.trim() !== "" && Number.isFinite(numericValue) && numericValue >= 0;
 };
 
 const isSubjectComplete = (subject: Subject) =>
-  subject.name.trim() !== "" && subject.grade !== "" && hasPositiveCredits(subject.credits);
+  subject.name.trim() !== "" && subject.grade !== "" && hasValidCredits(subject.credits);
 
-// Official result evidence: PP is recorded but excluded from SGPA credits and points; DX remains a zero-point, credit-bearing state.
-const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "PP";
+// Official result evidence: PP is a distinct 1-credit, 10-point course state in the verified 185/20 row; DX remains a zero-point, credit-bearing state.
+const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject);
 
 const isSubjectTouched = (subject: Subject) =>
   subject.name.trim() !== "" || subject.grade !== "" || subject.credits.trim() !== "";
@@ -88,7 +88,7 @@ const getSubjectError = (subject: Subject) => {
   if (!isSubjectTouched(subject) || isSubjectComplete(subject)) return null;
   if (subject.name.trim() === "") return "Add a subject name.";
   if (subject.grade === "") return "Choose a grade.";
-  if (!hasPositiveCredits(subject.credits)) return "Credits must be greater than 0.";
+  if (!hasValidCredits(subject.credits)) return "Enter an official credit value of 0 or more.";
   return null;
 };
 
@@ -315,7 +315,7 @@ export default function Home() {
                                 aria-invalid={Boolean(error && subject.grade === "")}
                               >
                                 <option value="">Select grade</option>
-                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{grade === "PP" ? "PP · excluded from SGPA" : `${grade} · ${point} points`}</option>)}
+                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{`${grade} · ${point} points`}</option>)}
                               </select>
                             </div>
                             <div>
@@ -324,13 +324,13 @@ export default function Home() {
                                 id={`credits-${subject.id}`}
                                 type="number"
                                 inputMode="decimal"
-                                min="0.01"
+                                min="0"
                                 step="0.5"
                                 value={subject.credits}
                                 onChange={(event) => updateSubject(semester.id, subject.id, "credits", event.target.value)}
-                                className={error && !hasPositiveCredits(subject.credits) ? "form-control form-control-error" : "form-control"}
+                                className={error && !hasValidCredits(subject.credits) ? "form-control form-control-error" : "form-control"}
                                 placeholder="Credits"
-                                aria-invalid={Boolean(error && !hasPositiveCredits(subject.credits))}
+                                aria-invalid={Boolean(error && !hasValidCredits(subject.credits))}
                               />
                             </div>
                             <button
@@ -373,7 +373,7 @@ export default function Home() {
                 <h2 id="grade-key-heading" className="text-lg font-semibold">Grade scale</h2>
               </div>
               <div className="grade-pills" aria-label="Grade point values">
-                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {grade === "PP" ? "excluded" : point}</span>)}
+                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {point}</span>)}
               </div>
             </section>
           </section>

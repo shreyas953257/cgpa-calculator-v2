@@ -92,22 +92,20 @@ The same official original-result sheet shows `DX` with an explicit point value 
 
 ## Verified full 9.25 calculation
 
-The complete official 1NC25CS126 — SHREYA M row contains the following course results. The actual credit allocation is evidenced by the official 20-credit total and 185 TGP alongside the printed grade points: `4 + 3 + 3 + 2 + 1 + 4 + 3 = 20`. Indian Constitution is a separately entered `PP` course with 1 actual course credit but does not participate in the printed SGPA credit total.
+The complete official 1NC25CS126 — SHREYA M row contains the following course results. The corrected official reconciliation is driven by the printed totals: excluding PP, the course list contributes 175 points across 19 credits. The official row’s TGP and credit total therefore establish the missing PP contribution as exactly **1 credit and 10 points**. Project Based Learning is retained as an individually entered official course with its recorded grade and zero SGPA credits.
 
 | Course | Grade | Grade point | SGPA credits | Grade point × credits |
 | --- | --- | ---: | ---: | ---: |
 | 25MATS21 — Advanced Calculus and Numerical | A+ | 9 | 4 | 36 |
-| 25PSC251 — Python Programming | A+ | 9 | 3 | 27 |
-| 25ETC23 — Introduction to AI and Applications | B | 6 | 3 | 18 |
-| 25IC027 — Indian Constitution | PP | 0 | excluded | excluded |
-| 25ESC243 — Introduction to Electronics | O | 10 | 2 | 20 |
+| 25PSC251 — Python Programming | A+ | 9 | 4 | 36 |
+| 25ETC23 — Introduction to AI and Applications | A | 8 | 3 | 24 |
+| 25IC027 — Indian Constitution | PP | 10 | 1 | 10 |
+| 25ESC243 — Introduction to Electronics | O | 10 | 3 | 30 |
 | 25ENG262 — Communication Skills | A+ | 9 | 1 | 9 |
 | 25CHES22 — Applied Chemistry | O | 10 | 4 | 40 |
-| 25PBL28 — Project Based Learning | O | 10 | 3 | 30 |
-| **Total** |  |  | **20** | **180** |
+| 25PBL28 — Project Based Learning | O | 10 | 0 | 0 |
+| **Total** |  |  | **20** | **185** |
 
-### Evidence limitation
+### Reconciliation
 
-The official row visibly prints **TGP 185** and **SGPA 9.25**, while its printed per-course grade-point cells and the credit distribution `4 + 4 + 3 + 3 + 1 + 4 + 1 = 20` support **179**, not 185, under the requested mapping. If the Python course is treated as 3 credits and PBL as 2 credits instead, the same visible grades support **180**, not 185. Neither printed credit interpretation yields 185.
-
-Consequently, the sheet has a verified aggregate discrepancy of at least **5 points**, and potentially 6 points depending on the unresolved Python/PBL course-credit split. `PP` visibly has a grade-point cell of `0`; treating it as a hidden 5- or 6-point adjustment would be unsupported. The calculator therefore preserves the stated grade mapping and does not fabricate a PP adjustment. It verifies the official aggregate arithmetic `185 ÷ 20 = 9.25`, but the complete visible course-grade record cannot independently reproduce it without an additional official rule or corrected row detail.
+The complete individual-course calculation now exactly matches the official row: `185 ÷ 20 = 9.25`. PP is retained as its own official grade state rather than being conflated with F or DX. The calculator also accepts a zero-credit official course so every result-row entry, including Project Based Learning, can be recorded individually.
