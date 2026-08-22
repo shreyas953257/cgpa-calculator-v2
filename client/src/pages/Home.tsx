@@ -789,6 +789,7 @@ export default function Home() {
           </aside>
         </div>
       </main>
+      <footer className="app-attribution" aria-label="Author attribution">Last by Shreyas</footer>
     </div>
   );
 }

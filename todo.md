@@ -53,3 +53,4 @@
 - [x] Add slow, seamless Earth rotation treatment, star drift/twinkle, low-opacity dust motion, nebula travel, and distant planetary parallax behind the UI.
 - [x] Keep all foreground UI fixed while optimizing transform-based motion for mobile/PWA and reduced-motion preferences.
 - [x] Re-run all calculation regressions and verify desktop and mobile space motion remains subtle and cinematic.
+- [x] Add a centered, unobtrusive responsive footer reading “Last by Shreyas” at the bottom of the calculator.
