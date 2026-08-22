@@ -2,6 +2,10 @@
  * Academic Ledger design: editorial study-planner layout, Ledger Teal actions,
  * warm paper surfaces, clear numerical hierarchy, and supportive validation.
  */
+/**
+ * Design: Cinematic Academic Dashboard — restrained navy glass, teal standing signals,
+ * and high-contrast record stamps. Preserve all calculator and history behavior.
+ */
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -391,7 +395,7 @@ export default function Home() {
   const clearSavedData = () => setSavedSemesters([]);
 
   return (
-    <div className="min-h-screen bg-[#f7f3ea] text-[#1f2a28] selection:bg-[#b8e0da]">
+    <div className="cinematic-dashboard min-h-screen bg-[#07131d] text-[#e8f1f2] selection:bg-[#1c817d]/60">
       <header className="border-b border-[#d9d3c6] bg-[#fbfaf6]/90 backdrop-blur-sm">
         <div className="container flex min-h-18 items-center justify-between gap-4 py-3">
           <a href="#calculator" className="brand-lockup focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e766e] focus-visible:ring-offset-4">

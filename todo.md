@@ -32,3 +32,6 @@
 - [x] Add separate registered (total) and earned credit calculations, with F and DX counted as registered but not earned.
 - [x] Update semester summaries, audit, saved history, and overall reporting to use precise registered-credit terminology.
 - [x] Verify the official 79 ÷ 20 = 3.95 case shows 20 total credits and 12 earned credits, while retaining relevant existing scenarios.
+- [x] Replace the current light Academic Ledger presentation with a restrained cinematic navy-and-teal dashboard style.
+- [x] Add subtle depth, glass treatment, academic-technology background detail, and responsive premium interaction states without changing functionality.
+- [x] Re-run all regressions, including official 3.95 and 9.25 calculations, and verify desktop and mobile presentation.

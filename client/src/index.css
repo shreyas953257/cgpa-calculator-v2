@@ -1,4 +1,5 @@
 /* Academic Ledger design: warm paper surfaces, scholarly teal hierarchy, editorial typography, and responsive ledger rhythm. */
+/* Design: Cinematic Academic Dashboard — navy depth, restrained teal, and glass record panels. */
 @import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -207,3 +208,201 @@
   .semester-chapter:nth-of-type(3) { animation-delay: 90ms; }
   @keyframes ledger-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 }
+
+/* Cinematic academic dashboard override — visual only; calculations and data rules remain untouched. */
+.cinematic-dashboard {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+  background-color: #07131d !important;
+  background-image:
+    radial-gradient(circle at 88% 6%, rgb(20 125 123 / 0.22), transparent 27%),
+    radial-gradient(circle at 4% 78%, rgb(34 74 112 / 0.20), transparent 26%),
+    linear-gradient(135deg, rgb(6 16 27 / 0.96), rgb(11 24 36 / 0.94)),
+    url("/manus-storage/cinematic-academic-grid_1932fd90.jpg");
+  background-size: auto, auto, auto, cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #e8f1f2 !important;
+}
+.cinematic-dashboard::before {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0.22;
+  background-image: linear-gradient(rgb(125 192 189 / 0.09) 1px, transparent 1px), linear-gradient(90deg, rgb(125 192 189 / 0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(circle at 50% 34%, black, transparent 77%);
+}
+.cinematic-dashboard::after {
+  position: fixed;
+  z-index: -1;
+  right: -15vw;
+  bottom: -22vw;
+  width: 52vw;
+  height: 52vw;
+  border: 1px solid rgb(111 225 216 / 0.10);
+  border-radius: 999px;
+  content: "";
+  box-shadow: 0 0 100px 30px rgb(16 128 127 / 0.07), inset 0 0 80px rgb(10 77 94 / 0.10);
+  pointer-events: none;
+}
+.cinematic-dashboard > * { position: relative; z-index: 1; }
+.cinematic-dashboard > header {
+  border-color: rgb(143 182 188 / 0.16) !important;
+  background: rgb(7 18 29 / 0.76) !important;
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.04), 0 10px 36px rgb(0 0 0 / 0.18);
+}
+.cinematic-dashboard .brand-lockup { color: #edf6f6; }
+.cinematic-dashboard .brand-lockup strong { letter-spacing: -0.035em; }
+.cinematic-dashboard .brand-lockup small,
+.cinematic-dashboard header p { color: #91a9af !important; }
+.cinematic-dashboard .hero-ledger {
+  border-color: rgb(132 189 188 / 0.22) !important;
+  background: linear-gradient(115deg, rgb(11 28 42 / 0.90), rgb(12 35 50 / 0.68)) !important;
+  box-shadow: 0 18px 55px rgb(0 0 0 / 0.24), inset 0 1px 0 rgb(255 255 255 / 0.06);
+  backdrop-filter: blur(18px);
+}
+.cinematic-dashboard .hero-ledger img { opacity: 0.17 !important; filter: saturate(0.55) contrast(1.15) brightness(0.72) !important; }
+.cinematic-dashboard .hero-ledger::before { opacity: 0.25; background: repeating-linear-gradient(to bottom, transparent 0 25px, rgb(102 219 210 / 0.18) 25px 26px); }
+.cinematic-dashboard .hero-ledger::after { opacity: 0.16; background-image: linear-gradient(to bottom, transparent 27px, rgb(202 238 234 / 0.16) 28px); }
+.cinematic-dashboard .hero-ledger h1,
+.cinematic-dashboard .section-heading,
+.cinematic-dashboard .semester-name-input,
+.cinematic-dashboard .audit-heading h3,
+.cinematic-dashboard .history-heading h2,
+.cinematic-dashboard .history-item h3 { color: #f1f7f7; }
+.cinematic-dashboard .hero-ledger p,
+.cinematic-dashboard .semester-subtitle,
+.cinematic-dashboard .history-item p,
+.cinematic-dashboard .history-empty,
+.cinematic-dashboard .side-note p { color: #a8bec2; }
+.cinematic-dashboard .eyebrow { color: #62d2c8; }
+.cinematic-dashboard .semester-chapter,
+.cinematic-dashboard .calculation-audit,
+.cinematic-dashboard .semester-history,
+.cinematic-dashboard .grade-key {
+  border-color: rgb(128 180 185 / 0.20);
+  background: linear-gradient(145deg, rgb(16 34 48 / 0.85), rgb(10 24 36 / 0.76));
+  box-shadow: 0 18px 42px rgb(0 0 0 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.045);
+  backdrop-filter: blur(16px);
+}
+.cinematic-dashboard .semester-chapter-header,
+.cinematic-dashboard .audit-heading,
+.cinematic-dashboard .history-heading {
+  border-color: rgb(128 180 185 / 0.20);
+  background: linear-gradient(115deg, rgb(17 44 60 / 0.91), rgb(13 32 47 / 0.78));
+}
+.cinematic-dashboard .semester-chapter-header::after { background: repeating-linear-gradient(90deg, #37bcb3 0 24px, transparent 24px 30px); }
+.cinematic-dashboard .semester-index,
+.cinematic-dashboard .audit-heading > span,
+.cinematic-dashboard .history-index,
+.cinematic-dashboard .grade-pills b { color: #6bd9cf; }
+.cinematic-dashboard .subject-row {
+  border-color: rgb(129 176 181 / 0.16);
+  background: repeating-linear-gradient(to bottom, rgb(7 20 31 / 0.21) 0 39px, rgb(125 208 200 / 0.08) 39px 40px);
+}
+.cinematic-dashboard .subjects-label-row,
+.cinematic-dashboard .calculation-audit th,
+.cinematic-dashboard .calculation-audit td,
+.cinematic-dashboard .semester-footer { border-color: rgb(129 176 181 / 0.16); }
+.cinematic-dashboard .subjects-label-row,
+.cinematic-dashboard .field-label,
+.cinematic-dashboard .calculation-audit thead th,
+.cinematic-dashboard .summary-list dt,
+.cinematic-dashboard .history-item dt { color: #8dabaf; }
+.cinematic-dashboard .form-control {
+  border-color: rgb(130 191 188 / 0.38);
+  background: rgb(4 17 27 / 0.56);
+  color: #eef7f7;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.025);
+}
+.cinematic-dashboard .form-control::placeholder { color: #718a90; }
+.cinematic-dashboard .form-control:hover { border-color: #52bdb4; background: rgb(8 30 42 / 0.72); }
+.cinematic-dashboard .form-control:focus { border-color: #72e0d6; box-shadow: 0 4px 16px rgb(38 194 181 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.04); }
+.cinematic-dashboard select.form-control option { background: #102536; color: #eef7f7; }
+.cinematic-dashboard .calculation-audit thead th { background: rgb(8 24 36 / 0.70); }
+.cinematic-dashboard .calculation-audit tbody th,
+.cinematic-dashboard .calculation-audit td { color: #c7d8db; }
+.cinematic-dashboard .audit-status-included { border-color: rgb(82 204 193 / 0.56); background: rgb(18 125 119 / 0.16); color: #75e0d6; }
+.cinematic-dashboard .audit-status-excluded { border-color: rgb(231 154 131 / 0.52); background: rgb(158 71 52 / 0.13); color: #f0aa92; }
+.cinematic-dashboard .audit-reason,
+.cinematic-dashboard .calculation-note { color: #94aeb3; }
+.cinematic-dashboard .semester-footer { background: rgb(8 23 35 / 0.54); }
+.cinematic-dashboard .result-stamp {
+  border-color: rgb(104 220 211 / 0.62);
+  background: linear-gradient(145deg, rgb(12 48 60 / 0.80), rgb(7 27 40 / 0.88));
+  box-shadow: inset 0 0 0 2px rgb(25 101 108 / 0.78), inset 0 0 0 4px rgb(5 24 36 / 0.86), 0 10px 26px rgb(0 0 0 / 0.22);
+}
+.cinematic-dashboard .result-stamp-label { color: #80dbd1; }
+.cinematic-dashboard .result-stamp-value { color: #f4ffff; text-shadow: 0 0 22px rgb(70 225 213 / 0.16); }
+.cinematic-dashboard .result-stamp-note { color: #a6c8ca; }
+.cinematic-dashboard .overall-card {
+  border-color: rgb(85 214 202 / 0.48);
+  background: linear-gradient(155deg, rgb(12 119 116 / 0.96), rgb(7 69 83 / 0.95) 58%, rgb(8 42 61 / 0.97));
+  box-shadow: 0 26px 60px rgb(0 0 0 / 0.34), 0 0 38px rgb(27 174 165 / 0.13), inset 0 1px 0 rgb(255 255 255 / 0.12);
+}
+.cinematic-dashboard .overall-card::before { border-color: rgb(207 255 248 / 0.34); }
+.cinematic-dashboard .overall-card::after { opacity: 0.12; }
+.cinematic-dashboard .side-note { border-color: rgb(128 180 185 / 0.19); background: linear-gradient(135deg, rgb(13 31 44 / 0.88), rgb(10 26 39 / 0.78)); box-shadow: 0 14px 34px rgb(0 0 0 / 0.18); }
+.cinematic-dashboard .side-note-art { opacity: 0.22; mix-blend-mode: screen; filter: hue-rotate(120deg) saturate(0.48) brightness(0.72); }
+.cinematic-dashboard .grade-pills span { border-color: rgb(123 181 184 / 0.28); background: rgb(9 26 38 / 0.78); color: #c4d7da; }
+.cinematic-dashboard .history-item { border-color: rgb(129 176 181 / 0.16); }
+.cinematic-dashboard .history-item dd { color: #77ded4; }
+.cinematic-dashboard .history-action { border-color: rgb(98 194 185 / 0.44); background: rgb(10 42 54 / 0.58); color: #7de2d8; }
+.cinematic-dashboard .history-action:hover { background: rgb(20 112 111 / 0.34); box-shadow: 0 0 16px rgb(65 215 203 / 0.14); transform: translateY(-1px); }
+.cinematic-dashboard .history-delete { border-color: rgb(221 144 121 / 0.42); color: #f0ae98; }
+.cinematic-dashboard .history-delete:hover { background: rgb(144 65 49 / 0.28); }
+.cinematic-dashboard .empty-subject-state { border-color: rgb(102 206 197 / 0.34); background: rgb(14 83 82 / 0.18); color: #9dd5d0; }
+.cinematic-dashboard button { transition: transform 160ms cubic-bezier(.23,1,.32,1), box-shadow 160ms cubic-bezier(.23,1,.32,1), filter 160ms cubic-bezier(.23,1,.32,1); }
+.cinematic-dashboard button:not(:disabled):hover { box-shadow: 0 8px 20px rgb(0 0 0 / 0.18), 0 0 16px rgb(62 214 202 / 0.10); transform: translateY(-1px); }
+.cinematic-dashboard button:not(:disabled):active { transform: translateY(0) scale(.97); }
+@media (max-width: 500px) {
+  .cinematic-dashboard { background-attachment: scroll; }
+  .cinematic-dashboard .hero-ledger { border-radius: 1rem; }
+  .cinematic-dashboard .overall-card { border-radius: 1rem; box-shadow: 0 18px 35px rgb(0 0 0 / 0.28), 0 0 24px rgb(37 175 166 / 0.10); }
+}
+
+/* Academic-ledger rebalance: cinematic depth surrounds inked-paper working records. */
+html, body, #root { min-height: 100%; background: #07131d; }
+.cinematic-dashboard {
+  background-image:
+    radial-gradient(circle at 4% 78%, rgb(131 88 55 / 0.08), transparent 29%),
+    linear-gradient(135deg, rgb(6 16 27 / 0.97), rgb(12 24 34 / 0.95)),
+    url("/manus-storage/cinematic-academic-grid_1932fd90.jpg");
+  background-size: auto, auto, cover;
+}
+.cinematic-dashboard::before { opacity: 0.13; background-image: linear-gradient(rgb(198 183 155 / 0.10) 1px, transparent 1px), linear-gradient(90deg, rgb(125 192 189 / 0.045) 1px, transparent 1px); }
+.cinematic-dashboard .semester-chapter,
+.cinematic-dashboard .calculation-audit,
+.cinematic-dashboard .semester-history,
+.cinematic-dashboard .grade-key {
+  border-color: rgb(215 194 159 / 0.24);
+  border-radius: 0.58rem;
+  background:
+    repeating-linear-gradient(to bottom, rgb(31 39 45 / 0.93) 0 30px, rgb(180 156 118 / 0.085) 30px 31px),
+    linear-gradient(145deg, rgb(34 43 49 / 0.94), rgb(20 30 39 / 0.89));
+  box-shadow: 0 16px 38px rgb(0 0 0 / 0.19), inset 0 1px 0 rgb(255 240 214 / 0.055);
+  backdrop-filter: blur(12px);
+}
+.cinematic-dashboard .semester-chapter-header,
+.cinematic-dashboard .audit-heading,
+.cinematic-dashboard .history-heading {
+  border-color: rgb(219 199 164 / 0.22);
+  background:
+    repeating-linear-gradient(to bottom, rgb(39 49 55 / 0.96) 0 28px, rgb(186 159 119 / 0.105) 28px 29px),
+    linear-gradient(115deg, rgb(40 50 56 / 0.94), rgb(24 35 44 / 0.90));
+}
+.cinematic-dashboard .subject-row { background: repeating-linear-gradient(to bottom, rgb(21 31 39 / 0.60) 0 39px, rgb(201 179 139 / 0.095) 39px 40px); }
+.cinematic-dashboard .semester-footer { background: rgb(22 31 38 / 0.82); }
+.cinematic-dashboard .side-note { border-radius: 0.58rem; border-color: rgb(215 194 159 / 0.20); background: linear-gradient(135deg, rgb(39 47 50 / 0.90), rgb(22 31 38 / 0.88)); }
+.cinematic-dashboard .side-note-art { opacity: 0.32; mix-blend-mode: luminosity; filter: saturate(0.42) sepia(0.22) brightness(0.74); }
+.cinematic-dashboard .grade-pills span { border-color: rgb(215 194 159 / 0.25); background: rgb(16 27 35 / 0.78); color: #d2d8d2; }
+.cinematic-dashboard .overall-card {
+  border-radius: 0.66rem;
+  background: linear-gradient(155deg, rgb(11 104 103 / 0.98), rgb(8 72 82 / 0.98) 58%, rgb(13 53 66 / 0.99));
+  box-shadow: 0 24px 54px rgb(0 0 0 / 0.34), inset 0 1px 0 rgb(255 255 255 / 0.10);
+}
+.cinematic-dashboard .overall-card::after { opacity: 0.08; }

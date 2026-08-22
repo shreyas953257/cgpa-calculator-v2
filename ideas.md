@@ -90,3 +90,6 @@ The mark is a simple **stacked ledger corner**: three offset teal rule marks tha
 - Local SGPA and final CGPA values share a double-rule, official-record stamp treatment; teal is reserved for standing, correct data, actions, and ledger marks.
 - The first viewport prioritizes the active semester ledger and cumulative standing; the editorial hero is compact context rather than a dominant banner.
 - Academic imagery acts as restrained paper evidence at the margin, while result stamps use high-contrast tabular numerals and double-rule framing.
+- Cinematic edition: midnight navy depth, restrained teal validation signals, faint academic-tech geometry, and semi-opaque glass panels make the experience feel premium without reducing daily usability.
+- In the cinematic edition, dark depth surrounds a main work area that reads as inked paper and ruled academic record rather than generic transparent dashboard glass.
+- Ledger Teal remains concentrated in actions, standing cards, score framing, and validation; paper texture, warm rules, and official-record geometry carry the rest of the visual identity.
