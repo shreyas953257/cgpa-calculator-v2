@@ -441,12 +441,19 @@ export default function Home() {
   return (
     <div className="cinematic-dashboard min-h-screen bg-[#07131d] text-[#e8f1f2] selection:bg-[#1c817d]/60">
       <div className="ambient-atmosphere" aria-hidden="true">
-        <span className="ambient-orb ambient-orb-one" />
-        <span className="ambient-orb ambient-orb-two" />
-        <span className="ambient-orb ambient-orb-three" />
-        <span className="ambient-linework" />
-        <span className="ambient-particles" />
-        <span className="ambient-sweep" />
+        <span className="space-nebula space-nebula-north" />
+        <span className="space-nebula space-nebula-south" />
+        <span className="space-stars space-stars-far" />
+        <span className="space-stars space-stars-near" />
+        <span className="space-particles" />
+        <span className="space-orbit space-orbit-wide" />
+        <span className="space-orbit space-orbit-close" />
+        <span className="space-planet space-planet-left" />
+        <span className="space-planet space-planet-right" />
+        <span className="space-planet-ring" />
+        <span className="space-moon space-moon-top" />
+        <span className="space-moon space-moon-bottom" />
+        <span className="space-teal-sweep" />
       </div>
       <header className="border-b border-[#d9d3c6] bg-[#fbfaf6]/90 backdrop-blur-sm">
         <div className="container flex min-h-18 items-center justify-between gap-4 py-3">

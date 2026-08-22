@@ -41,3 +41,6 @@
 - [x] Add independent low-opacity ambient light orbs, drifting linework, particles, and teal sweeps behind the entire app.
 - [x] Keep foreground surfaces stable and sharp while optimizing the ambient layer for mobile and reduced-motion preferences.
 - [x] Re-run calculation regressions and verify the atmospheric layer on desktop and mobile.
+- [x] Replace the generic ambient layer with animated stars, nebula depth, edge planets, orbital paths, and drifting particles behind the UI.
+- [x] Optimize the space scene for mobile/PWA use, preserve foreground readability, and respect reduced-motion preferences.
+- [x] Re-run all calculation regressions, including official 3.95 and 9.25 cases, and verify desktop and mobile presentation.

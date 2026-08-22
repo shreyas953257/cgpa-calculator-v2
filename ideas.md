@@ -96,3 +96,4 @@ The mark is a simple **stacked ledger corner**: three offset teal rule marks tha
 - The active work surface is warm inked paper with ruled ledger texture, framed by cinematic navy atmosphere; it should never read as generic translucent SaaS glass.
 - Empty and populated SGPA/CGPA areas use decisive double-rule standing stamps so formal academic results remain the most recognizable signature.
 - Ambient depth is an independent, low-opacity backdrop of drifting orbs, technical lines, particles, and rare teal sweeps; foreground records remain perfectly still and sharp.
+- Space edition: a CSS-built deep-space scene layers realistic nebula haze, restrained star fields, edge-cropped planets, orbital paths, and slow parallax behind the unchanged academic ledger.
