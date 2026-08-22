@@ -35,3 +35,6 @@
 - [x] Replace the current light Academic Ledger presentation with a restrained cinematic navy-and-teal dashboard style.
 - [x] Add subtle depth, glass treatment, academic-technology background detail, and responsive premium interaction states without changing functionality.
 - [x] Re-run all regressions, including official 3.95 and 9.25 calculations, and verify desktop and mobile presentation.
+- [x] Add staggered page, semester, subject-row, result, save-state, status, and ambient cinematic motion with reduced-motion safeguards.
+- [x] Preserve all existing calculation, history, persistence, and special-grade behavior while adding motion.
+- [x] Re-run all regression cases and verify desktop and mobile animation presentation.

@@ -93,3 +93,5 @@ The mark is a simple **stacked ledger corner**: three offset teal rule marks tha
 - Cinematic edition: midnight navy depth, restrained teal validation signals, faint academic-tech geometry, and semi-opaque glass panels make the experience feel premium without reducing daily usability.
 - In the cinematic edition, dark depth surrounds a main work area that reads as inked paper and ruled academic record rather than generic transparent dashboard glass.
 - Ledger Teal remains concentrated in actions, standing cards, score framing, and validation; paper texture, warm rules, and official-record geometry carry the rest of the visual identity.
+- The active work surface is warm inked paper with ruled ledger texture, framed by cinematic navy atmosphere; it should never read as generic translucent SaaS glass.
+- Empty and populated SGPA/CGPA areas use decisive double-rule standing stamps so formal academic results remain the most recognizable signature.

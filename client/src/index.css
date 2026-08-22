@@ -406,3 +406,77 @@ html, body, #root { min-height: 100%; background: #07131d; }
   box-shadow: 0 24px 54px rgb(0 0 0 / 0.34), inset 0 1px 0 rgb(255 255 255 / 0.10);
 }
 .cinematic-dashboard .overall-card::after { opacity: 0.08; }
+
+/* Final material pass: warm inked paper in the active ledger, cinematic navy as the surrounding atmosphere. */
+.cinematic-dashboard .hero-ledger { min-height: 148px; padding-block: 1rem !important; background: linear-gradient(112deg, rgb(15 30 41 / 0.94), rgb(21 36 45 / 0.72)) !important; }
+.cinematic-dashboard .hero-ledger h1 { font-size: clamp(1.7rem, 3vw, 2.7rem); }
+.cinematic-dashboard .hero-ledger p { max-width: 520px; font-size: 0.87rem; }
+.cinematic-dashboard .semester-chapter,
+.cinematic-dashboard .calculation-audit,
+.cinematic-dashboard .semester-history,
+.cinematic-dashboard .grade-key {
+  border-color: rgb(228 206 167 / 0.28);
+  background:
+    repeating-linear-gradient(to bottom, rgb(46 47 44 / 0.98) 0 31px, rgb(206 179 131 / 0.12) 31px 32px),
+    linear-gradient(145deg, rgb(54 54 49 / 0.98), rgb(37 40 39 / 0.97));
+  backdrop-filter: none;
+}
+.cinematic-dashboard .semester-chapter-header,
+.cinematic-dashboard .audit-heading,
+.cinematic-dashboard .history-heading {
+  background:
+    repeating-linear-gradient(to bottom, rgb(59 59 53 / 0.99) 0 28px, rgb(218 191 144 / 0.13) 28px 29px),
+    linear-gradient(115deg, rgb(63 62 56 / 0.99), rgb(44 47 45 / 0.98));
+}
+.cinematic-dashboard .subject-row { background: repeating-linear-gradient(to bottom, rgb(38 41 40 / 0.84) 0 39px, rgb(205 179 132 / 0.11) 39px 40px); }
+.cinematic-dashboard .semester-footer { background: rgb(34 38 38 / 0.96); }
+.cinematic-dashboard .form-control { border-color: rgb(221 196 151 / 0.42); background: rgb(26 31 31 / 0.88); }
+.cinematic-dashboard .form-control:hover { border-color: rgb(230 204 158 / 0.68); background: rgb(35 41 40 / 0.96); }
+.cinematic-dashboard .form-control:focus { border-color: #66d1c5; box-shadow: 0 3px 0 rgb(97 209 197 / 0.14), inset 0 1px 0 rgb(255 239 210 / 0.05); }
+.cinematic-dashboard .grade-pills span { border-color: rgb(221 196 151 / 0.35); background: rgb(32 36 35 / 0.92); }
+.cinematic-dashboard .result-stamp { border-width: 2px; box-shadow: inset 0 0 0 2px rgb(10 71 78 / 0.90), inset 0 0 0 4px rgb(210 245 238 / 0.20), inset 0 0 0 6px rgb(7 31 41 / 0.88), 0 10px 26px rgb(0 0 0 / 0.22); }
+.cinematic-dashboard .result-stamp-featured { border-width: 2px; box-shadow: inset 0 0 0 2px rgb(11 95 95 / 0.95), inset 0 0 0 4px rgb(206 255 247 / 0.34), inset 0 0 0 6px rgb(7 66 77 / 0.92), 0 12px 28px rgb(0 0 0 / 0.22); }
+.cinematic-dashboard .overall-card { box-shadow: 0 22px 50px rgb(0 0 0 / 0.32), inset 0 1px 0 rgb(255 255 255 / 0.10); }
+
+/* Motion system: quiet cinematic feedback, never decorative spectacle. */
+@media (prefers-reduced-motion: no-preference) {
+  .cinematic-dashboard { animation: cinematic-ambient-drift 26s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .cinematic-dashboard > header { animation: motion-fade-rise 380ms cubic-bezier(.23,1,.32,1) both; }
+  .cinematic-dashboard .hero-ledger { animation: motion-fade-rise 480ms 55ms cubic-bezier(.23,1,.32,1) both; }
+  .cinematic-dashboard .section-heading,
+  .cinematic-dashboard .overall-card { animation: motion-fade-rise 500ms 110ms cubic-bezier(.23,1,.32,1) both; }
+  .cinematic-dashboard .side-note,
+  .cinematic-dashboard .grade-key,
+  .cinematic-dashboard .semester-history { animation: motion-fade-rise 480ms 160ms cubic-bezier(.23,1,.32,1) both; }
+  .motion-semester { animation-name: motion-semester-rise !important; animation-duration: 420ms !important; animation-timing-function: cubic-bezier(.23,1,.32,1) !important; animation-fill-mode: both !important; }
+  .motion-subject-row { overflow: hidden; animation: motion-subject-expand 220ms cubic-bezier(.23,1,.32,1) both; }
+  .motion-subject-leave { pointer-events: none; animation: motion-subject-collapse 180ms cubic-bezier(.23,1,.32,1) both !important; }
+  .result-stamp { transition: transform 180ms cubic-bezier(.23,1,.32,1), box-shadow 180ms cubic-bezier(.23,1,.32,1), border-color 180ms cubic-bezier(.23,1,.32,1); }
+  .result-stamp:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 2px rgb(25 101 108 / 0.78), inset 0 0 0 4px rgb(5 24 36 / 0.86), 0 14px 30px rgb(0 0 0 / 0.24), 0 0 18px rgb(74 218 208 / 0.10); }
+  .result-stamp-value { transition: color 160ms cubic-bezier(.23,1,.32,1), text-shadow 160ms cubic-bezier(.23,1,.32,1); }
+  .motion-value-shift { display: inline-block; animation: motion-value-shift 220ms cubic-bezier(.23,1,.32,1) both; }
+  .motion-status-shift { animation: motion-status-shift 200ms cubic-bezier(.23,1,.32,1) both; }
+  .save-success { animation: motion-save-success 650ms cubic-bezier(.23,1,.32,1) both; }
+  .cinematic-dashboard .semester-chapter,
+  .cinematic-dashboard .grade-key,
+  .cinematic-dashboard .semester-history,
+  .cinematic-dashboard .side-note { transition: transform 200ms cubic-bezier(.23,1,.32,1), box-shadow 200ms cubic-bezier(.23,1,.32,1), border-color 200ms cubic-bezier(.23,1,.32,1); }
+  .cinematic-dashboard .semester-chapter:hover,
+  .cinematic-dashboard .grade-key:hover,
+  .cinematic-dashboard .semester-history:hover,
+  .cinematic-dashboard .side-note:hover { transform: translateY(-2px); border-color: rgb(112 205 198 / 0.36); box-shadow: 0 22px 46px rgb(0 0 0 / 0.24), inset 0 1px 0 rgb(255 240 214 / 0.07); }
+  @keyframes cinematic-ambient-drift {
+    from { background-position: 0 0, 0 0, center, center; }
+    to { background-position: 2% -1%, -1% 2%, center, 52% 48%; }
+  }
+  @keyframes motion-fade-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes motion-semester-rise { from { opacity: 0; transform: translateY(14px) scale(.992); } to { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes motion-subject-expand { from { opacity: 0; max-height: 0; transform: translateY(-5px); } to { opacity: 1; max-height: 280px; transform: translateY(0); } }
+  @keyframes motion-subject-collapse { from { opacity: 1; max-height: 280px; transform: translateY(0); } to { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; transform: translateY(-5px); } }
+  @keyframes motion-value-shift { from { opacity: .55; transform: translateY(3px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes motion-status-shift { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
+  @keyframes motion-save-success { 0% { transform: scale(1); } 35% { background: #25a99f; box-shadow: 0 0 0 5px rgb(83 225 211 / 0.14), 0 0 22px rgb(77 221 208 / 0.22); transform: scale(1.02); } 100% { transform: scale(1); } }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

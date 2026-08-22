@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import {
   BookOpenCheck,
+  Check,
   ChevronRight,
   CircleAlert,
   ClipboardList,
@@ -31,7 +32,7 @@ import {
   Save,
   Trash2,
 } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export type Grade = "" | "O" | "A+" | "A" | "B+" | "B" | "C" | "P" | "F" | "PP" | "DX";
 
@@ -285,6 +286,35 @@ const restoreSemesterForEditing = (saved: SavedSemester): Semester => ({
   subjects: saved.subjects.map(({ id, name, grade, credits }) => ({ id, name, grade, credits })),
 });
 
+function useAnimatedDisplay(value: string) {
+  const numericTarget = Number(value);
+  const lastTarget = useRef<number | null>(Number.isFinite(numericTarget) ? numericTarget : null);
+  const [displayValue, setDisplayValue] = useState<number | null>(Number.isFinite(numericTarget) ? numericTarget : null);
+
+  useEffect(() => {
+    if (!Number.isFinite(numericTarget)) {
+      setDisplayValue(null);
+      lastTarget.current = null;
+      return;
+    }
+    const from = lastTarget.current ?? numericTarget;
+    const startedAt = performance.now();
+    const duration = 340;
+    let frame = 0;
+    const tick = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setDisplayValue(from + (numericTarget - from) * eased);
+      if (progress < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    lastTarget.current = numericTarget;
+    return () => cancelAnimationFrame(frame);
+  }, [numericTarget]);
+
+  return displayValue === null ? value : displayValue.toFixed(2);
+}
+
 function ResultStamp({
   label,
   value,
@@ -296,10 +326,11 @@ function ResultStamp({
   note: string;
   featured?: boolean;
 }) {
+  const animatedValue = useAnimatedDisplay(value);
   return (
     <div className={`result-stamp ${featured ? "result-stamp-featured" : ""}`}>
       <span className="result-stamp-label">{label}</span>
-      <strong className="result-stamp-value">{value}</strong>
+      <strong className="result-stamp-value" aria-live="polite">{animatedValue}</strong>
       <span className="result-stamp-note">{note}</span>
     </div>
   );
@@ -308,6 +339,8 @@ function ResultStamp({
 export default function Home() {
   const [semesters, setSemesters] = useState<Semester[]>(() => [createSemester(1)]);
   const [savedSemesters, setSavedSemesters] = useState<SavedSemester[]>(() => loadSavedSemesters(getBrowserStorage()));
+  const [removingSubjects, setRemovingSubjects] = useState<Set<string>>(() => new Set());
+  const [savedPulseId, setSavedPulseId] = useState<string | null>(null);
 
   useEffect(() => {
     persistSavedSemesters(savedSemesters, getBrowserStorage());
@@ -352,10 +385,19 @@ export default function Home() {
   };
 
   const removeSubject = (semesterId: string, subjectId: string) => {
-    updateSemester(semesterId, (semester) => ({
-      ...semester,
-      subjects: semester.subjects.filter((subject) => subject.id !== subjectId),
-    }));
+    if (removingSubjects.has(subjectId)) return;
+    setRemovingSubjects((current) => new Set(current).add(subjectId));
+    setTimeout(() => {
+      updateSemester(semesterId, (semester) => ({
+        ...semester,
+        subjects: semester.subjects.filter((subject) => subject.id !== subjectId),
+      }));
+      setRemovingSubjects((current) => {
+        const next = new Set(current);
+        next.delete(subjectId);
+        return next;
+      });
+    }, 180);
   };
 
   const addSemester = () => {
@@ -376,6 +418,8 @@ export default function Home() {
       if (existingIndex === -1) return [...current, saved];
       return current.map((item) => (item.id === saved.id ? saved : item));
     });
+    setSavedPulseId(semester.id);
+    setTimeout(() => setSavedPulseId((current) => (current === semester.id ? null : current)), 650);
   };
 
   const editSavedSemester = (saved: SavedSemester) => {
@@ -441,7 +485,7 @@ export default function Home() {
             </div>
 
             {calculations.map(({ semester, calculation }, semesterIndex) => (
-              <article key={semester.id} className="semester-chapter" aria-labelledby={`semester-heading-${semester.id}`}>
+              <article key={semester.id} className="semester-chapter motion-semester" style={{ animationDelay: `${semesterIndex * 120}ms` }} aria-labelledby={`semester-heading-${semester.id}`}>
                 <div className="semester-chapter-header">
                   <div className="relative min-w-0 flex-1">
                     <span className="semester-index">{String(semesterIndex + 1).padStart(2, "0")}</span>
@@ -488,7 +532,7 @@ export default function Home() {
                     semester.subjects.map((subject, subjectIndex) => {
                       const error = getSubjectError(subject);
                       return (
-                        <div key={subject.id} className="subject-row">
+                        <div key={subject.id} className={`subject-row motion-subject-row ${removingSubjects.has(subject.id) ? "motion-subject-leave" : ""}`}>
                           <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-[minmax(0,1fr)_136px_112px_42px] md:items-start">
                             <div className="sm:col-span-2 md:col-span-1">
                               <label className="field-label md:sr-only" htmlFor={`subject-name-${subject.id}`}>Subject name</label>
@@ -577,12 +621,12 @@ export default function Home() {
                               <tr key={`audit-${subject.id}`}>
                                 <th scope="row">{subject.name.trim() || `Subject ${subjectIndex + 1}`}</th>
                                 <td>{subject.grade || "—"}</td>
-                                <td>{audit.gradePoint ?? "—"}</td>
-                                <td>{audit.credits ?? "—"}</td>
-                                <td>{audit.earnedCredits ?? "—"}</td>
-                                <td>{audit.weightedPoints ?? "—"}</td>
+                                <td><span key={`${subject.grade}-point`} className="motion-value-shift">{audit.gradePoint ?? "—"}</span></td>
+                                <td><span key={`${subject.credits}-total`} className="motion-value-shift">{audit.credits ?? "—"}</span></td>
+                                <td><span key={`${subject.grade}-${subject.credits}-earned`} className="motion-value-shift">{audit.earnedCredits ?? "—"}</span></td>
+                                <td><span key={`${subject.grade}-${subject.credits}-weighted`} className="motion-value-shift">{audit.weightedPoints ?? "—"}</span></td>
                                 <td>
-                                  <span className={`audit-status ${audit.status === "Included" ? "audit-status-included" : "audit-status-excluded"}`}>{audit.status}</span>
+                                  <span key={`${subject.grade}-${audit.status}`} className={`audit-status motion-status-shift ${audit.status === "Included" ? "audit-status-included" : "audit-status-excluded"}`}>{audit.status}</span>
                                   <span className="audit-reason">{audit.reason}</span>
                                 </td>
                               </tr>
@@ -612,9 +656,9 @@ export default function Home() {
                       variant="outline"
                       onClick={() => saveSemester(semester, calculation)}
                       disabled={calculation.incompleteRows > 0 || !semester.subjects.some(isSubjectComplete)}
-                      className="border-[#0e766e] bg-[#0e766e] text-white hover:bg-[#095f59] disabled:border-[#cad4d0] disabled:bg-[#edf0ed] disabled:text-[#77827e] active:scale-[.97]"
+                      className={`border-[#0e766e] bg-[#0e766e] text-white hover:bg-[#095f59] disabled:border-[#cad4d0] disabled:bg-[#edf0ed] disabled:text-[#77827e] active:scale-[.97] ${savedPulseId === semester.id ? "save-success" : ""}`}
                     >
-                      <Save size={16} /> Save semester
+                      {savedPulseId === semester.id ? <Check size={16} /> : <Save size={16} />} {savedPulseId === semester.id ? "Saved" : "Save semester"}
                     </Button>
                     <Button variant="outline" onClick={() => addSubject(semester.id)} className="border-[#b8c9c5] bg-[#fbfaf6] text-[#0e766e] hover:bg-[#e2f0ed] active:scale-[.97]">
                       <Plus size={16} /> Add subject
