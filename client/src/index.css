@@ -501,6 +501,68 @@ html, body, #root { min-height: 100%; background: #07131d; }
   .space-stars-near, .space-particles, .space-orbit, .space-planet, .space-planet-ring, .space-moon, .space-teal-sweep { display: none; }
 }
 
+/* Realistic deep-space refinement: no inherited abstract grid or image, only layered cosmic materials. */
+.cinematic-dashboard {
+  background-image:
+    radial-gradient(ellipse at 82% 12%, rgb(15 73 100 / .26), transparent 25%),
+    radial-gradient(ellipse at 16% 84%, rgb(8 47 86 / .20), transparent 30%),
+    linear-gradient(128deg, #020714 0%, #061321 47%, #040c18 100%) !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+.cinematic-dashboard::before, .cinematic-dashboard::after { display: none; }
+.space-nebula-north {
+  opacity: .20;
+  background:
+    radial-gradient(ellipse at 24% 48%, rgb(68 205 211 / .32) 0 3%, transparent 31%),
+    radial-gradient(ellipse at 47% 36%, rgb(51 121 218 / .28) 0 17%, transparent 52%),
+    radial-gradient(ellipse at 69% 63%, rgb(8 99 143 / .30) 0 18%, transparent 61%),
+    radial-gradient(ellipse at 55% 52%, rgb(47 162 195 / .13) 0 38%, transparent 74%);
+}
+.space-nebula-south {
+  opacity: .15;
+  background:
+    radial-gradient(ellipse at 64% 38%, rgb(22 150 167 / .26) 0 12%, transparent 39%),
+    radial-gradient(ellipse at 38% 62%, rgb(43 83 181 / .30) 0 18%, transparent 57%),
+    radial-gradient(ellipse at 75% 75%, rgb(4 52 105 / .28) 0 17%, transparent 62%);
+}
+.space-stars-far { opacity: .48; background-size: 151px 151px, 207px 207px, 263px 263px, 337px 337px; background-image: radial-gradient(circle at 18% 33%, rgb(240 250 255 / .90) 0 .75px, transparent 1.3px), radial-gradient(circle at 75% 62%, rgb(177 221 255 / .76) 0 .7px, transparent 1.2px), radial-gradient(circle at 47% 81%, rgb(255 235 203 / .64) 0 .65px, transparent 1.2px), radial-gradient(circle at 88% 16%, rgb(178 255 244 / .75) 0 .8px, transparent 1.4px); }
+.space-stars-near { opacity: .24; filter: drop-shadow(0 0 3px rgb(142 237 228 / .18)); }
+.space-planet-left {
+  opacity: .62;
+  background:
+    radial-gradient(ellipse at 31% 23%, rgb(225 246 239 / .36) 0 2%, transparent 9%),
+    radial-gradient(ellipse at 26% 34%, rgb(58 161 169 / .91) 0 9%, transparent 26%),
+    radial-gradient(ellipse at 52% 29%, rgb(95 170 133 / .72) 0 8%, transparent 21%),
+    radial-gradient(ellipse at 59% 52%, rgb(22 86 107 / .84) 0 14%, transparent 36%),
+    repeating-linear-gradient(158deg, transparent 0 8px, rgb(202 244 227 / .08) 9px 11px, transparent 12px 22px),
+    repeating-radial-gradient(ellipse at 35% 33%, rgb(10 69 103 / .19) 0 2px, transparent 3px 12px),
+    radial-gradient(circle at 35% 30%, #3c8fa2 0%, #21627d 30%, #103954 58%, #06132a 78%, #01040e 100%);
+  box-shadow: inset -42px -38px 72px rgb(0 0 0 / .78), inset 24px 14px 34px rgb(199 255 246 / .20), 0 0 64px rgb(27 144 179 / .16);
+}
+.space-planet-right {
+  opacity: .58;
+  background:
+    radial-gradient(ellipse at 28% 21%, rgb(247 235 206 / .35) 0 2%, transparent 9%),
+    radial-gradient(ellipse at 40% 35%, rgb(190 158 106 / .48) 0 13%, transparent 34%),
+    repeating-linear-gradient(12deg, transparent 0 7px, rgb(230 213 166 / .14) 8px 12px, transparent 13px 20px),
+    repeating-linear-gradient(102deg, transparent 0 16px, rgb(15 73 84 / .20) 17px 22px, transparent 23px 36px),
+    radial-gradient(circle at 35% 31%, #8b9f78 0%, #527562 34%, #284859 61%, #0b1c36 82%, #020612 100%);
+  box-shadow: inset -30px -29px 56px rgb(0 0 0 / .78), inset 17px 11px 24px rgb(255 239 202 / .18), 0 0 52px rgb(79 167 151 / .13);
+}
+.space-planet-ring { border-color: rgb(208 238 213 / .29); box-shadow: 0 0 0 2px rgb(112 192 177 / .11), 0 0 0 5px rgb(8 34 53 / .22), 0 0 38px rgb(71 176 160 / .12); }
+.space-meteor { width: 118px; height: 1px; opacity: 0; background: linear-gradient(90deg, transparent, rgb(187 250 245 / .62), rgb(245 255 253 / .92)); transform: rotate(-23deg); filter: drop-shadow(0 0 5px rgb(81 221 210 / .28)); will-change: transform, opacity; }
+.space-meteor-one { top: 19%; left: -12%; }
+.space-meteor-two { top: 68%; right: -16%; transform: rotate(156deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .space-meteor-one { animation: space-meteor-one 38s linear infinite; }
+  .space-meteor-two { animation: space-meteor-two 54s linear infinite; }
+  @keyframes space-meteor-one { 0%, 78% { opacity: 0; transform: translate3d(0,0,0) rotate(-23deg); } 80% { opacity: .54; } 86% { opacity: 0; transform: translate3d(112vw,42vh,0) rotate(-23deg); } 100% { opacity: 0; transform: translate3d(112vw,42vh,0) rotate(-23deg); } }
+  @keyframes space-meteor-two { 0%, 82% { opacity: 0; transform: translate3d(0,0,0) rotate(156deg); } 84% { opacity: .40; } 91% { opacity: 0; transform: translate3d(-114vw,-35vh,0) rotate(156deg); } 100% { opacity: 0; transform: translate3d(-114vw,-35vh,0) rotate(156deg); } }
+}
+@media (max-width: 640px) { .space-meteor, .space-moon-top { display: none; } }
+@media (prefers-reduced-motion: reduce) { .space-meteor { display: none; } }
+
 /* Final material pass: warm inked paper in the active ledger, cinematic navy as the surrounding atmosphere. */
 .cinematic-dashboard .hero-ledger { min-height: 148px; padding-block: 1rem !important; background: linear-gradient(112deg, rgb(15 30 41 / 0.94), rgb(21 36 45 / 0.72)) !important; }
 .cinematic-dashboard .hero-ledger h1 { font-size: clamp(1.7rem, 3vw, 2.7rem); }

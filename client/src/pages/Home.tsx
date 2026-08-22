@@ -453,6 +453,8 @@ export default function Home() {
         <span className="space-planet-ring" />
         <span className="space-moon space-moon-top" />
         <span className="space-moon space-moon-bottom" />
+        <span className="space-meteor space-meteor-one" />
+        <span className="space-meteor space-meteor-two" />
         <span className="space-teal-sweep" />
       </div>
       <header className="border-b border-[#d9d3c6] bg-[#fbfaf6]/90 backdrop-blur-sm">

@@ -97,3 +97,4 @@ The mark is a simple **stacked ledger corner**: three offset teal rule marks tha
 - Empty and populated SGPA/CGPA areas use decisive double-rule standing stamps so formal academic results remain the most recognizable signature.
 - Ambient depth is an independent, low-opacity backdrop of drifting orbs, technical lines, particles, and rare teal sweeps; foreground records remain perfectly still and sharp.
 - Space edition: a CSS-built deep-space scene layers realistic nebula haze, restrained star fields, edge-cropped planets, orbital paths, and slow parallax behind the unchanged academic ledger.
+- The realistic space scene uses layered, textured CSS materials rather than static imagery, background grids, abstract geometry, or cartoon-like circles; all dramatic detail lives at page edges and behind the stable calculator.

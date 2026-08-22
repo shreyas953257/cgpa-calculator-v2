@@ -44,3 +44,6 @@
 - [x] Replace the generic ambient layer with animated stars, nebula depth, edge planets, orbital paths, and drifting particles behind the UI.
 - [x] Optimize the space scene for mobile/PWA use, preserve foreground readability, and respect reduced-motion preferences.
 - [x] Re-run all calculation regressions, including official 3.95 and 9.25 cases, and verify desktop and mobile presentation.
+- [x] Refine only the background into a realistic deep-space scene with rich nebulae, natural star fields, edge planets, orbital paths, and restrained meteor streaks.
+- [x] Preserve the entire foreground UI and calculation functionality while optimizing the animated background for mobile and reduced-motion users.
+- [x] Re-run all calculations and verify realistic background depth without reducing foreground readability.
