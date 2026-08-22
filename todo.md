@@ -26,3 +26,6 @@
 - [x] Confirm F retains zero weighted points while its credits remain included, and DX excludes both points and credits.
 - [x] Add regression coverage for DX → F and F → DX credit restoration/removal transitions.
 - [x] Verify normal, F, DX, official 9.25, and saved-history calculations after the distinction update.
+- [x] Exclude both F and DX credits and weighted points from the institution-specific SGPA denominator and numerator.
+- [x] Update the calculation audit so F and DX are both marked excluded with clear credit-exclusion reasons.
+- [x] Re-test normal grades, F/DX exclusions, saved history, and the official 9.25 case where applicable.

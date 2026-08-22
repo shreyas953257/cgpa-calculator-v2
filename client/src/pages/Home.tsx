@@ -52,6 +52,8 @@ export type SemesterCalculation = {
   incompleteRows: number;
   excludedDxCount: number;
   excludedDxCredits: number;
+  excludedFCount: number;
+  excludedFCredits: number;
 };
 
 export type SubjectAudit = {
@@ -123,8 +125,8 @@ const hasValidCredits = (value: string) => {
 const isSubjectComplete = (subject: Subject) =>
   subject.name.trim() !== "" && subject.grade !== "" && hasValidCredits(subject.credits);
 
-// Special-grade rules: F remains included with zero points and its full credits; PP remains credit-bearing; DX excludes both points and credits.
-const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "DX";
+// Institution-specific special-grade rules: PP remains credit-bearing; both F and DX exclude their points and credits.
+const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "DX" && subject.grade !== "F";
 
 const isSubjectTouched = (subject: Subject) =>
   subject.name.trim() !== "" || subject.grade !== "" || subject.credits.trim() !== "";
@@ -150,13 +152,13 @@ export const getSubjectAudit = (subject: Subject): SubjectAudit => {
     };
   }
 
-  if (subject.grade === "DX") {
+  if (subject.grade === "DX" || subject.grade === "F") {
     return {
-      gradePoint: null,
+      gradePoint: 0,
       credits,
-      weightedPoints: null,
+      weightedPoints: 0,
       status: "Excluded",
-      reason: "DX is excluded from both SGPA points and credits.",
+      reason: `${subject.grade} is excluded from both SGPA points and credits by this institution’s rule.`,
     };
   }
 
@@ -175,6 +177,9 @@ export const calculateSemester = (semester: Semester): SemesterCalculation => {
   const excludedDxSubjects = semester.subjects.filter(
     (subject) => isSubjectComplete(subject) && subject.grade === "DX",
   );
+  const excludedFSubjects = semester.subjects.filter(
+    (subject) => isSubjectComplete(subject) && subject.grade === "F",
+  );
   const totalCredits = validSubjects.reduce((sum, subject) => sum + Number(subject.credits), 0);
   const weightedPoints = validSubjects.reduce(
     (sum, subject) => sum + gradePoints[subject.grade as Exclude<Grade, "">] * Number(subject.credits),
@@ -191,6 +196,8 @@ export const calculateSemester = (semester: Semester): SemesterCalculation => {
     ).length,
     excludedDxCount: excludedDxSubjects.length,
     excludedDxCredits: excludedDxSubjects.reduce((sum, subject) => sum + Number(subject.credits), 0),
+    excludedFCount: excludedFSubjects.length,
+    excludedFCredits: excludedFSubjects.reduce((sum, subject) => sum + Number(subject.credits), 0),
   };
 };
 
@@ -220,7 +227,17 @@ export const loadSavedSemesters = (storage: StorageAdapter | null | undefined): 
   if (!storage) return [];
   try {
     const parsed = JSON.parse(storage.getItem(SAVED_SEMESTERS_STORAGE_KEY) ?? "[]");
-    return Array.isArray(parsed) ? parsed as SavedSemester[] : [];
+    if (!Array.isArray(parsed)) return [];
+    return parsed.flatMap((candidate) => {
+      if (!candidate || typeof candidate !== "object" || !Array.isArray(candidate.subjects)) return [];
+      const record = candidate as SavedSemester;
+      const semester: Semester = {
+        id: record.id,
+        name: record.name,
+        subjects: record.subjects.map(({ id, name, grade, credits }) => ({ id, name, grade, credits })),
+      };
+      return [createSavedSemester(semester, record.savedAt)];
+    });
   } catch {
     return [];
   }
@@ -378,11 +395,11 @@ export default function Home() {
       </header>
 
       <main id="calculator" className="container pb-12 pt-6 sm:pb-16 sm:pt-10">
-        <section className="hero-ledger relative overflow-hidden rounded-[1.75rem] border border-[#d9d3c6] bg-[#efe9db] px-5 py-7 sm:px-8 sm:py-9">
+        <section className="hero-ledger relative overflow-hidden rounded-[1.2rem] border border-[#d9d3c6] bg-[#efe9db] px-5 py-5 sm:px-8 sm:py-6">
           <img
             src="/manus-storage/gradebook-hero-ledger_5218b0b4.jpg"
             alt=""
-            className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[54%] object-cover object-right opacity-65 mix-blend-multiply md:block"
+            className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[42%] object-cover object-right opacity-45 mix-blend-multiply md:block"
           />
           <div className="relative max-w-2xl">
             <div className="eyebrow"><BookOpenCheck size={14} /> Academic record</div>
@@ -566,8 +583,8 @@ export default function Home() {
                     ) : (
                       <p className="calculation-note"><ChevronRight size={15} /> Complete a subject row to calculate SGPA.</p>
                     )}
-                    {calculation.excludedDxCount > 0 && (
-                      <p className="validation-note mt-1"><CircleAlert size={15} /> {calculation.excludedDxCount} DX {calculation.excludedDxCount === 1 ? "subject is" : "subjects are"} excluded: {calculation.excludedDxCredits} {calculation.excludedDxCredits === 1 ? "credit is" : "credits are"} not counted in SGPA.</p>
+                    {(calculation.excludedDxCount + calculation.excludedFCount) > 0 && (
+                      <p className="validation-note mt-1"><CircleAlert size={15} /> {calculation.excludedDxCount + calculation.excludedFCount} F/DX {calculation.excludedDxCount + calculation.excludedFCount === 1 ? "subject is" : "subjects are"} excluded: {calculation.excludedDxCredits + calculation.excludedFCredits} {calculation.excludedDxCredits + calculation.excludedFCredits === 1 ? "credit is" : "credits are"} not counted in SGPA.</p>
                     )}
                   </div>
                   <div className="flex flex-wrap gap-2">

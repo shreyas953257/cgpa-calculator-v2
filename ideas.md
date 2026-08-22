@@ -88,3 +88,5 @@ The mark is a simple **stacked ledger corner**: three offset teal rule marks tha
 - Supporting copy stays direct, encouraging, and specific to semesters, grades, credits, and academic standing.
 - Course-entry controls use ruled-row rhythm, compact uppercase labels, and bottom-rule inputs so the active worksheet reads as an editable academic ledger rather than a generic form.
 - Local SGPA and final CGPA values share a double-rule, official-record stamp treatment; teal is reserved for standing, correct data, actions, and ledger marks.
+- The first viewport prioritizes the active semester ledger and cumulative standing; the editorial hero is compact context rather than a dominant banner.
+- Academic imagery acts as restrained paper evidence at the margin, while result stamps use high-contrast tabular numerals and double-rule framing.
