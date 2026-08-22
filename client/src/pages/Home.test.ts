@@ -94,6 +94,45 @@ describe("CGPA Calculator formulas", () => {
     expect(result.excludedDxCredits).toBe(3);
   });
 
+  it("keeps F credits in SGPA while excluding DX credits with the same zero-point contribution", () => {
+    const failing = calculateSemester(makeSemester("F course", [
+      { id: "f-course", name: "Failed course", grade: "F", credits: "4" },
+    ]));
+    const deferred = calculateSemester(makeSemester("DX course", [
+      { id: "dx-course", name: "Excluded course", grade: "DX", credits: "4" },
+    ]));
+
+    expect(failing.weightedPoints).toBe(0);
+    expect(failing.totalCredits).toBe(4);
+    expect(failing.sgpa).toBe(0);
+    expect(deferred.weightedPoints).toBe(0);
+    expect(deferred.totalCredits).toBe(0);
+    expect(deferred.sgpa).toBeNull();
+    expect(getSubjectAudit({ id: "f-audit", name: "Failed course", grade: "F", credits: "4" })).toMatchObject({
+      gradePoint: 0,
+      weightedPoints: 0,
+      status: "Included",
+    });
+    expect(getSubjectAudit({ id: "dx-audit", name: "Excluded course", grade: "DX", credits: "4" })).toMatchObject({
+      gradePoint: null,
+      weightedPoints: null,
+      status: "Excluded",
+    });
+  });
+
+  it("immediately restores credits for DX → F and removes them for F → DX", () => {
+    const subject = { id: "toggle", name: "Toggled course", grade: "DX" as const, credits: "4" };
+    const dxResult = calculateSemester(makeSemester("Transition", [subject]));
+    const fResult = calculateSemester(makeSemester("Transition", [{ ...subject, grade: "F" }]));
+    const dxAgain = calculateSemester(makeSemester("Transition", [{ ...subject, grade: "DX" }]));
+
+    expect(dxResult.totalCredits).toBe(0);
+    expect(fResult.totalCredits).toBe(4);
+    expect(fResult.weightedPoints).toBe(0);
+    expect(dxAgain.totalCredits).toBe(0);
+    expect(dxAgain.excludedDxCredits).toBe(4);
+  });
+
   it("reports audit values from the same inclusion rules as the calculation", () => {
     expect(getSubjectAudit({ id: "normal", name: "Normal course", grade: "A", credits: "3" })).toMatchObject({
       gradePoint: 8,
@@ -142,5 +181,28 @@ describe("CGPA Calculator formulas", () => {
     expect(overall.totalCredits).toBe(11);
     expect(overall.totalWeightedPoints).toBe(95);
     expect(overall.cgpa).toBeCloseTo(95 / 11, 8);
+  });
+
+  it("keeps F credits and omits DX credits after a semester is saved and reloaded", () => {
+    const memory = new Map<string, string>();
+    const storage = {
+      getItem: (key: string) => memory.get(key) ?? null,
+      setItem: (key: string, value: string) => memory.set(key, value),
+      removeItem: (key: string) => memory.delete(key),
+    };
+    const saved = createSavedSemester(makeSemester("Special grades", [
+      { id: "failed", name: "Failed course", grade: "F", credits: "4" },
+      { id: "excluded", name: "Deferred course", grade: "DX", credits: "4" },
+      { id: "completed", name: "Completed course", grade: "O", credits: "2" },
+    ]), "2026-08-21T00:02:00.000Z");
+
+    persistSavedSemesters([saved], storage);
+    const reloaded = loadSavedSemesters(storage);
+    const overall = calculateSavedCgpa(reloaded);
+    expect(reloaded[0].totalCredits).toBe(6);
+    expect(reloaded[0].totalWeightedPoints).toBe(20);
+    expect(overall.totalCredits).toBe(6);
+    expect(overall.totalWeightedPoints).toBe(20);
+    expect(overall.cgpa).toBeCloseTo(20 / 6, 8);
   });
 });

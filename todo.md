@@ -23,3 +23,6 @@
 - [x] Add locally persisted saved-semester records with subjects, grade data, credits, weighted points, SGPA, and semester metadata.
 - [x] Add save, edit, delete, and confirmed clear-all history controls with an automatic credit-weighted CGPA across saved semesters.
 - [x] Verify local persistence after reload, multi-semester CGPA updates, DX/PP compatibility, and the official 9.25 case.
+- [x] Confirm F retains zero weighted points while its credits remain included, and DX excludes both points and credits.
+- [x] Add regression coverage for DX → F and F → DX credit restoration/removal transitions.
+- [x] Verify normal, F, DX, official 9.25, and saved-history calculations after the distinction update.

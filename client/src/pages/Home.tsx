@@ -123,7 +123,7 @@ const hasValidCredits = (value: string) => {
 const isSubjectComplete = (subject: Subject) =>
   subject.name.trim() !== "" && subject.grade !== "" && hasValidCredits(subject.credits);
 
-// Special-grade rules: PP remains a 10-point, credit-bearing grade state; DX is a distinct excluded status, not F.
+// Special-grade rules: F remains included with zero points and its full credits; PP remains credit-bearing; DX excludes both points and credits.
 const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "DX";
 
 const isSubjectTouched = (subject: Subject) =>
