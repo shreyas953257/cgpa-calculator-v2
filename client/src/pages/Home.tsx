@@ -46,6 +46,7 @@ export type Semester = {
 
 export type SemesterCalculation = {
   totalCredits: number;
+  earnedCredits: number;
   weightedPoints: number;
   sgpa: number | null;
   validSubjectCount: number;
@@ -59,6 +60,7 @@ export type SemesterCalculation = {
 export type SubjectAudit = {
   gradePoint: number | null;
   credits: number | null;
+  earnedCredits: number | null;
   weightedPoints: number | null;
   status: "Included" | "Excluded";
   reason: string;
@@ -66,6 +68,7 @@ export type SubjectAudit = {
 
 export type SavedSubject = Subject & {
   gradePoint: number | null;
+  earnedCredits: number | null;
   weightedPoints: number | null;
   calculationStatus: "Included" | "Excluded";
   calculationReason: string;
@@ -77,6 +80,7 @@ export type SavedSemester = {
   subjects: SavedSubject[];
   sgpa: number | null;
   totalCredits: number;
+  earnedCredits: number;
   totalWeightedPoints: number;
   savedAt: string;
 };
@@ -125,8 +129,9 @@ const hasValidCredits = (value: string) => {
 const isSubjectComplete = (subject: Subject) =>
   subject.name.trim() !== "" && subject.grade !== "" && hasValidCredits(subject.credits);
 
-// Institution-specific special-grade rules: PP remains credit-bearing; both F and DX exclude their points and credits.
-const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "DX" && subject.grade !== "F";
+// Institutional rule: every completed subject remains registered for SGPA; F and DX earn zero credits and contribute zero points.
+const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject);
+const earnsCredits = (subject: Subject) => isSgpaIncluded(subject) && subject.grade !== "DX" && subject.grade !== "F";
 
 const isSubjectTouched = (subject: Subject) =>
   subject.name.trim() !== "" || subject.grade !== "" || subject.credits.trim() !== "";
@@ -146,6 +151,7 @@ export const getSubjectAudit = (subject: Subject): SubjectAudit => {
     return {
       gradePoint: subject.grade ? gradePoints[subject.grade as Exclude<Grade, "">] : null,
       credits,
+      earnedCredits: null,
       weightedPoints: null,
       status: "Excluded",
       reason: "Complete the subject, grade, and credits to include this row.",
@@ -156,9 +162,10 @@ export const getSubjectAudit = (subject: Subject): SubjectAudit => {
     return {
       gradePoint: 0,
       credits,
+      earnedCredits: 0,
       weightedPoints: 0,
-      status: "Excluded",
-      reason: `${subject.grade} is excluded from both SGPA points and credits by this institution’s rule.`,
+      status: "Included",
+      reason: `${subject.grade} retains registered credits in SGPA, but earns 0 credits and contributes 0 points.`,
     };
   }
 
@@ -166,6 +173,7 @@ export const getSubjectAudit = (subject: Subject): SubjectAudit => {
   return {
     gradePoint,
     credits,
+    earnedCredits: credits,
     weightedPoints: gradePoint * Number(subject.credits),
     status: "Included",
     reason: subject.grade === "PP" ? "PP follows this institution’s included grade rule." : "Counted in the SGPA calculation.",
@@ -181,6 +189,7 @@ export const calculateSemester = (semester: Semester): SemesterCalculation => {
     (subject) => isSubjectComplete(subject) && subject.grade === "F",
   );
   const totalCredits = validSubjects.reduce((sum, subject) => sum + Number(subject.credits), 0);
+  const earnedCredits = validSubjects.filter(earnsCredits).reduce((sum, subject) => sum + Number(subject.credits), 0);
   const weightedPoints = validSubjects.reduce(
     (sum, subject) => sum + gradePoints[subject.grade as Exclude<Grade, "">] * Number(subject.credits),
     0,
@@ -188,6 +197,7 @@ export const calculateSemester = (semester: Semester): SemesterCalculation => {
 
   return {
     totalCredits,
+    earnedCredits,
     weightedPoints,
     sgpa: totalCredits > 0 ? weightedPoints / totalCredits : null,
     validSubjectCount: validSubjects.length,
@@ -203,21 +213,23 @@ export const calculateSemester = (semester: Semester): SemesterCalculation => {
 
 export const createSavedSemester = (semester: Semester, savedAt = new Date().toISOString()): SavedSemester => {
   const calculation = calculateSemester(semester);
-  return {
-    id: semester.id,
-    name: semester.name.trim() || "Untitled semester",
-    subjects: semester.subjects.map((subject) => {
-      const audit = getSubjectAudit(subject);
-      return {
-        ...subject,
-        gradePoint: audit.gradePoint,
-        weightedPoints: audit.weightedPoints,
+    return {
+      id: semester.id,
+      name: semester.name.trim() || "Untitled semester",
+      subjects: semester.subjects.map((subject) => {
+        const audit = getSubjectAudit(subject);
+        return {
+          ...subject,
+          gradePoint: audit.gradePoint,
+          earnedCredits: audit.earnedCredits,
+          weightedPoints: audit.weightedPoints,
         calculationStatus: audit.status,
         calculationReason: audit.reason,
       };
     }),
     sgpa: calculation.sgpa,
     totalCredits: calculation.totalCredits,
+    earnedCredits: calculation.earnedCredits,
     totalWeightedPoints: calculation.weightedPoints,
     savedAt,
   };
@@ -251,9 +263,11 @@ export const persistSavedSemesters = (semesters: SavedSemester[], storage: Stora
 export const calculateSavedCgpa = (savedSemesters: SavedSemester[]) => {
   const includedSemesters = savedSemesters.filter((semester) => semester.totalCredits > 0);
   const totalCredits = includedSemesters.reduce((sum, semester) => sum + semester.totalCredits, 0);
+  const earnedCredits = includedSemesters.reduce((sum, semester) => sum + semester.earnedCredits, 0);
   const totalWeightedPoints = includedSemesters.reduce((sum, semester) => sum + semester.totalWeightedPoints, 0);
   return {
     totalCredits,
+    earnedCredits,
     totalWeightedPoints,
     cgpa: totalCredits > 0 ? totalWeightedPoints / totalCredits : null,
   };
@@ -300,7 +314,7 @@ export default function Home() {
     [semesters],
   );
 
-  const { totalCredits: overallCredits, totalWeightedPoints: overallWeightedPoints, cgpa } = useMemo(
+  const { totalCredits: overallCredits, earnedCredits: overallEarnedCredits, totalWeightedPoints: overallWeightedPoints, cgpa } = useMemo(
     () => calculateSavedCgpa(savedSemesters),
     [savedSemesters],
   );
@@ -441,7 +455,7 @@ export default function Home() {
                     <ResultStamp
                       label="SGPA"
                       value={calculation.sgpa === null ? "—" : calculation.sgpa.toFixed(2)}
-                      note={calculation.totalCredits > 0 ? `${calculation.totalCredits} credits` : "Add a complete row"}
+                      note={calculation.totalCredits > 0 ? `${calculation.totalCredits} total · ${calculation.earnedCredits} earned` : "Add a complete row"}
                     />
                     {semesters.length > 1 && (
                       <button
@@ -494,7 +508,7 @@ export default function Home() {
                                 aria-invalid={Boolean(error && subject.grade === "")}
                               >
                                 <option value="">Select grade</option>
-                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{grade === "DX" ? "DX · excluded from SGPA" : `${grade} · ${point} points`}</option>)}
+                                {gradeOptions.map(([grade, point]) => <option key={grade} value={grade}>{grade === "DX" ? "DX · 0 points / 0 earned" : `${grade} · ${point} points`}</option>)}
                               </select>
                             </div>
                             <div>
@@ -546,8 +560,9 @@ export default function Home() {
                             <th scope="col">Subject</th>
                             <th scope="col">Grade / status</th>
                             <th scope="col">Grade point</th>
-                            <th scope="col">Credits</th>
-                            <th scope="col">Weighted points</th>
+                                <th scope="col">Total credits</th>
+                                <th scope="col">Earned credits</th>
+                                <th scope="col">Weighted points</th>
                             <th scope="col">Calculation status</th>
                           </tr>
                         </thead>
@@ -560,6 +575,7 @@ export default function Home() {
                                 <td>{subject.grade || "—"}</td>
                                 <td>{audit.gradePoint ?? "—"}</td>
                                 <td>{audit.credits ?? "—"}</td>
+                                <td>{audit.earnedCredits ?? "—"}</td>
                                 <td>{audit.weightedPoints ?? "—"}</td>
                                 <td>
                                   <span className={`audit-status ${audit.status === "Included" ? "audit-status-included" : "audit-status-excluded"}`}>{audit.status}</span>
@@ -584,7 +600,7 @@ export default function Home() {
                       <p className="calculation-note"><ChevronRight size={15} /> Complete a subject row to calculate SGPA.</p>
                     )}
                     {(calculation.excludedDxCount + calculation.excludedFCount) > 0 && (
-                      <p className="validation-note mt-1"><CircleAlert size={15} /> {calculation.excludedDxCount + calculation.excludedFCount} F/DX {calculation.excludedDxCount + calculation.excludedFCount === 1 ? "subject is" : "subjects are"} excluded: {calculation.excludedDxCredits + calculation.excludedFCredits} {calculation.excludedDxCredits + calculation.excludedFCredits === 1 ? "credit is" : "credits are"} not counted in SGPA.</p>
+                      <p className="validation-note mt-1"><CircleAlert size={15} /> F/DX credits remain in Total Credits for SGPA but contribute 0 Earned Credits and 0 weighted points.</p>
                     )}
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -610,7 +626,7 @@ export default function Home() {
                 <h2 id="grade-key-heading" className="text-lg font-semibold">Grade scale</h2>
               </div>
               <div className="grade-pills" aria-label="Grade point values">
-                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {grade === "DX" ? "excluded" : point}</span>)}
+                {gradeOptions.map(([grade, point]) => <span key={grade}><b>{grade}</b> {grade === "DX" ? "0 earned" : point}</span>)}
               </div>
             </section>
 
@@ -653,7 +669,8 @@ export default function Home() {
                       </div>
                       <dl>
                         <div><dt>SGPA</dt><dd>{saved.sgpa === null ? "—" : saved.sgpa.toFixed(2)}</dd></div>
-                        <div><dt>Credits</dt><dd>{saved.totalCredits}</dd></div>
+                        <div><dt>Total</dt><dd>{saved.totalCredits}</dd></div>
+                        <div><dt>Earned</dt><dd>{saved.earnedCredits}</dd></div>
                       </dl>
                       <div className="history-actions">
                         <button type="button" className="history-action" onClick={() => editSavedSemester(saved)} aria-label={`Edit ${saved.name}`}><Pencil size={15} /> Edit</button>
@@ -676,12 +693,13 @@ export default function Home() {
                   featured
                   label="FINAL CGPA"
                   value={cgpa === null ? "—" : cgpa.toFixed(2)}
-                  note={overallCredits > 0 ? `${overallCredits} credits recorded` : "Complete a semester to record standing"}
+                  note={overallCredits > 0 ? `${overallCredits} total · ${overallEarnedCredits} earned` : "Complete a semester to record standing"}
                 />
                 <div className="overall-rule" />
                 <dl className="summary-list">
                   <div><dt>Semesters recorded</dt><dd>{savedSemesters.length}</dd></div>
-                  <div><dt>Credits recorded</dt><dd>{overallCredits || "—"}</dd></div>
+                  <div><dt>Total credits</dt><dd>{overallCredits || "—"}</dd></div>
+                  <div><dt>Earned credits</dt><dd>{overallEarnedCredits || "—"}</dd></div>
                   <div><dt>Drafts to review</dt><dd>{pendingSemesterCount ? pendingSemesterCount : "None"}</dd></div>
                 </dl>
                 <p className="overall-formula">CGPA = Σ(SGPA × semester credits) ÷ Σ(semester credits)</p>

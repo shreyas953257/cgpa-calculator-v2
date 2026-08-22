@@ -29,3 +29,6 @@
 - [x] Exclude both F and DX credits and weighted points from the institution-specific SGPA denominator and numerator.
 - [x] Update the calculation audit so F and DX are both marked excluded with clear credit-exclusion reasons.
 - [x] Re-test normal grades, F/DX exclusions, saved history, and the official 9.25 case where applicable.
+- [x] Add separate registered (total) and earned credit calculations, with F and DX counted as registered but not earned.
+- [x] Update semester summaries, audit, saved history, and overall reporting to use precise registered-credit terminology.
+- [x] Verify the official 79 ÷ 20 = 3.95 case shows 20 total credits and 12 earned credits, while retaining relevant existing scenarios.

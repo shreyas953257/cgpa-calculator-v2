@@ -129,7 +129,7 @@
   .audit-heading h3 { margin-top: 0.2rem; color: #25312d; font-family: "Fraunces", Georgia, serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.02em; }
   .audit-heading > span { color: #0e766e; font-size: 0.69rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
   .audit-scroll { overflow-x: auto; }
-  .calculation-audit table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 0.76rem; }
+  .calculation-audit table { width: 100%; min-width: 860px; border-collapse: collapse; font-size: 0.76rem; }
   .calculation-audit th, .calculation-audit td { padding: 0.67rem 0.78rem; border-bottom: 1px solid #e4ded2; text-align: left; vertical-align: top; }
   .calculation-audit thead th { background: #f8f4eb; color: #60706a; font-size: 0.61rem; font-weight: 700; letter-spacing: 0.09em; text-transform: uppercase; white-space: nowrap; }
   .calculation-audit tbody th { min-width: 152px; color: #26322e; font-weight: 700; }
