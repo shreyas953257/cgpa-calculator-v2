@@ -4,7 +4,7 @@
  */
 /**
  * Design: Cinematic Academic Dashboard — restrained navy glass, teal standing signals,
- * and high-contrast record stamps. Preserve all calculator and history behavior.
+ * high-contrast record stamps, and independent ambient atmosphere. Preserve all calculator and history behavior.
  */
 import { Button } from "@/components/ui/button";
 import {
@@ -440,6 +440,14 @@ export default function Home() {
 
   return (
     <div className="cinematic-dashboard min-h-screen bg-[#07131d] text-[#e8f1f2] selection:bg-[#1c817d]/60">
+      <div className="ambient-atmosphere" aria-hidden="true">
+        <span className="ambient-orb ambient-orb-one" />
+        <span className="ambient-orb ambient-orb-two" />
+        <span className="ambient-orb ambient-orb-three" />
+        <span className="ambient-linework" />
+        <span className="ambient-particles" />
+        <span className="ambient-sweep" />
+      </div>
       <header className="border-b border-[#d9d3c6] bg-[#fbfaf6]/90 backdrop-blur-sm">
         <div className="container flex min-h-18 items-center justify-between gap-4 py-3">
           <a href="#calculator" className="brand-lockup focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e766e] focus-visible:ring-offset-4">

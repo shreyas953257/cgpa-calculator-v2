@@ -407,6 +407,39 @@ html, body, #root { min-height: 100%; background: #07131d; }
 }
 .cinematic-dashboard .overall-card::after { opacity: 0.08; }
 
+/* Independent cinematic atmosphere: transforms and opacity only, entirely behind the stable interface. */
+.ambient-atmosphere { position: fixed !important; z-index: 0 !important; inset: 0; overflow: hidden; pointer-events: none; }
+.ambient-atmosphere > span { position: absolute; display: block; }
+.ambient-orb { width: 38vw; height: 38vw; min-width: 320px; min-height: 320px; border-radius: 999px; filter: blur(48px); opacity: 0.085; will-change: transform, opacity; }
+.ambient-orb-one { top: -15vw; right: -9vw; background: radial-gradient(circle, #53c9c0 0%, rgb(53 201 192 / 0.35) 32%, transparent 70%); }
+.ambient-orb-two { bottom: -21vw; left: -11vw; background: radial-gradient(circle, #304f88 0%, rgb(48 79 136 / 0.33) 34%, transparent 71%); }
+.ambient-orb-three { top: 38%; left: 41%; width: 22vw; height: 22vw; min-width: 230px; min-height: 230px; background: radial-gradient(circle, #c7a873 0%, rgb(199 168 115 / 0.18) 38%, transparent 70%); opacity: 0.032; }
+.ambient-linework { inset: -12%; opacity: 0.075; background-image: linear-gradient(115deg, transparent 0 44%, rgb(113 211 201 / 0.6) 44.1% 44.2%, transparent 44.3% 100%), linear-gradient(20deg, transparent 0 65%, rgb(201 175 127 / 0.5) 65.1% 65.2%, transparent 65.3% 100%), repeating-linear-gradient(90deg, transparent 0 79px, rgb(96 181 185 / 0.45) 80px 81px); transform: translate3d(0,0,0); will-change: transform; }
+.ambient-particles { inset: 0; opacity: 0.21; background-image: radial-gradient(circle at 14% 77%, rgb(177 237 229 / 0.84) 0 1px, transparent 1.4px), radial-gradient(circle at 31% 23%, rgb(148 219 211 / 0.70) 0 1px, transparent 1.5px), radial-gradient(circle at 62% 70%, rgb(214 192 145 / 0.60) 0 1px, transparent 1.5px), radial-gradient(circle at 83% 31%, rgb(165 226 218 / 0.65) 0 1px, transparent 1.5px), radial-gradient(circle at 91% 84%, rgb(191 235 229 / 0.56) 0 1px, transparent 1.3px); will-change: transform, opacity; }
+.ambient-sweep { top: -30%; left: -40%; width: 54%; height: 170%; opacity: 0; background: linear-gradient(105deg, transparent 20%, rgb(67 196 185 / 0.11) 46%, rgb(151 232 221 / 0.04) 50%, transparent 66%); transform: rotate(7deg) translate3d(-100%,0,0); will-change: transform, opacity; }
+@media (prefers-reduced-motion: no-preference) {
+  .ambient-orb-one { animation: ambient-orb-one 34s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .ambient-orb-two { animation: ambient-orb-two 43s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .ambient-orb-three { animation: ambient-orb-three 52s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .ambient-linework { animation: ambient-line-drift 58s linear infinite alternate; }
+  .ambient-particles { animation: ambient-particle-float 41s ease-in-out infinite alternate; }
+  .ambient-sweep { animation: ambient-teal-sweep 38s cubic-bezier(.45,0,.55,1) infinite; }
+  @keyframes ambient-orb-one { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(-8vw,8vh,0) scale(1.12); } }
+  @keyframes ambient-orb-two { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(9vw,-8vh,0) scale(1.08); } }
+  @keyframes ambient-orb-three { from { transform: translate3d(0,0,0) scale(.95); opacity: .02; } to { transform: translate3d(-5vw,-7vh,0) scale(1.15); opacity: .048; } }
+  @keyframes ambient-line-drift { from { transform: translate3d(-1.5%,1%,0); } to { transform: translate3d(1.5%,-1%,0); } }
+  @keyframes ambient-particle-float { from { transform: translate3d(-0.7%,1.5%,0); opacity: .14; } to { transform: translate3d(1.1%,-1.5%,0); opacity: .25; } }
+  @keyframes ambient-teal-sweep { 0%, 71% { opacity: 0; transform: rotate(7deg) translate3d(-100%,0,0); } 76% { opacity: .42; } 87% { opacity: .12; transform: rotate(7deg) translate3d(300%,0,0); } 100% { opacity: 0; transform: rotate(7deg) translate3d(300%,0,0); } }
+}
+@media (max-width: 640px) {
+  .ambient-orb { filter: blur(34px); opacity: 0.055; }
+  .ambient-orb-three, .ambient-linework { display: none; }
+  .ambient-particles { opacity: 0.12; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ambient-atmosphere { display: none; }
+}
+
 /* Final material pass: warm inked paper in the active ledger, cinematic navy as the surrounding atmosphere. */
 .cinematic-dashboard .hero-ledger { min-height: 148px; padding-block: 1rem !important; background: linear-gradient(112deg, rgb(15 30 41 / 0.94), rgb(21 36 45 / 0.72)) !important; }
 .cinematic-dashboard .hero-ledger h1 { font-size: clamp(1.7rem, 3vw, 2.7rem); }

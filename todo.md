@@ -38,3 +38,6 @@
 - [x] Add staggered page, semester, subject-row, result, save-state, status, and ambient cinematic motion with reduced-motion safeguards.
 - [x] Preserve all existing calculation, history, persistence, and special-grade behavior while adding motion.
 - [x] Re-run all regression cases and verify desktop and mobile animation presentation.
+- [x] Add independent low-opacity ambient light orbs, drifting linework, particles, and teal sweeps behind the entire app.
+- [x] Keep foreground surfaces stable and sharp while optimizing the ambient layer for mobile and reduced-motion preferences.
+- [x] Re-run calculation regressions and verify the atmospheric layer on desktop and mobile.
