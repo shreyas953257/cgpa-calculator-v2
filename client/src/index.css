@@ -1,6 +1,7 @@
 /* Academic Ledger design: warm paper surfaces, scholarly teal hierarchy, editorial typography, and responsive ledger rhythm. */
 /* Design: Cinematic Academic Dashboard — navy depth, restrained teal, and glass record panels. */
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap");
+@import "@fontsource-variable/dm-sans/opsz.css";
+@import "@fontsource-variable/fraunces/opsz.css";
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -30,8 +31,8 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --font-sans: "DM Sans", sans-serif;
-  --font-serif: "Fraunces", Georgia, serif;
+  --font-sans: "DM Sans Variable", "DM Sans", sans-serif;
+  --font-serif: "Fraunces Variable", "Fraunces", Georgia, serif;
 }
 
 :root {
@@ -74,7 +75,7 @@
   .brand-lockup { display: inline-flex; align-items: center; gap: 0.7rem; color: #1f2a28; }
   .brand-lockup img { filter: drop-shadow(0 2px 3px rgb(14 118 110 / 0.16)); }
   .brand-lockup span { display: grid; line-height: 1; }
-  .brand-lockup strong { font-family: "Fraunces", Georgia, serif; font-size: 1.25rem; font-weight: 700; letter-spacing: -0.045em; }
+.brand-lockup strong { font-family: var(--font-serif); font-size: 1.25rem; font-weight: 700; letter-spacing: -0.045em; }
   .brand-lockup small { margin-top: 0.25rem; color: #64716c; font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
 
   .hero-ledger { box-shadow: 0 8px 18px rgb(69 57 39 / 0.055); }
@@ -596,6 +597,7 @@ html, body, #root { min-height: 100%; background: #07131d; }
 
 /* Continuous cinematic motion pass: the scene moves; the application never does. */
 .earth-rotation-shimmer { position: absolute; bottom: -20vw; left: -20vw; display: block; width: min(51vw, 700px); height: min(51vw, 700px); border-radius: 50%; pointer-events: none; opacity: .18; background: url("/manus-storage/space-earthlike-edge_a7349942.png") 7% 50% / 184% auto no-repeat; mix-blend-mode: screen; filter: saturate(.72) contrast(1.06) brightness(.74); mask-image: radial-gradient(circle at 50% 50%, black 0 60%, rgb(0 0 0 / .72) 68%, transparent 76%); will-change: transform, opacity; }
+.cinematic-dashboard.capacitor-build .earth-rotation-shimmer { background-image: url("/assets/cgpa-calculator/space-earthlike-edge_a7349942.png"); }
 .earth-rotation-shimmer::after { position: absolute; inset: 0; border-radius: 50%; content: ""; background: linear-gradient(100deg, transparent 12%, rgb(185 239 248 / .10) 35%, transparent 52%, rgb(2 13 28 / .26) 80%); mix-blend-mode: soft-light; }
 .space-dust { position: absolute; display: block; width: 2px; height: 2px; border-radius: 50%; background: rgb(183 240 235 / .78); box-shadow: 0 0 7px rgb(92 211 203 / .35); opacity: .18; pointer-events: none; will-change: transform, opacity; }
 .space-dust-one { top: 29%; left: 13%; }

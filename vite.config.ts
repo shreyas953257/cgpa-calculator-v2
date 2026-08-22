@@ -203,10 +203,34 @@ function vitePluginStorageProxy(): Plugin {
   };
 }
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime(), vitePluginManusDebugCollector(), vitePluginStorageProxy()];
+function vitePluginCapacitorOfflineDocument(isCapacitorBuild: boolean): Plugin {
+  return {
+    name: "capacitor-offline-document",
+    transform(code, id) {
+      if (!isCapacitorBuild || !id.endsWith("/client/src/index.css")) return null;
 
-export default defineConfig({
-  plugins,
+      return code.replaceAll("/manus-storage/", "/assets/cgpa-calculator/");
+    },
+    transformIndexHtml(html) {
+      if (!isCapacitorBuild) return html;
+
+      return html
+        .replace(/\s*<script\b[^>]*data-manus-analytics[^>]*><\/script>/gi, "")
+        .replaceAll("/manus-storage/gradebook-logo_37220e98.png", "/assets/cgpa-calculator/gradebook-logo_37220e98.png");
+    },
+  };
+}
+
+export default defineConfig(({ mode }) => ({
+  plugins: [
+    react(),
+    tailwindcss(),
+    jsxLocPlugin(),
+    vitePluginManusRuntime(),
+    vitePluginManusDebugCollector(),
+    vitePluginStorageProxy(),
+    vitePluginCapacitorOfflineDocument(mode === "capacitor"),
+  ],
   resolve: {
     alias: {
       "@": path.resolve(import.meta.dirname, "client", "src"),
@@ -238,4 +262,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));

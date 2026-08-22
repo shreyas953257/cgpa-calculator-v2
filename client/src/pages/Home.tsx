@@ -93,6 +93,8 @@ export type SavedSemester = {
 type StorageAdapter = Pick<Storage, "getItem" | "setItem" | "removeItem">;
 
 const SAVED_SEMESTERS_STORAGE_KEY = "gradebook-saved-semesters-v1";
+const isCapacitorBuild = import.meta.env.MODE === "capacitor";
+const packagedAsset = (filename: string) => isCapacitorBuild ? `/assets/cgpa-calculator/${filename}` : `/manus-storage/${filename}`;
 
 const gradePoints: Record<Exclude<Grade, "">, number> = {
   O: 10,
@@ -439,9 +441,9 @@ export default function Home() {
   const clearSavedData = () => setSavedSemesters([]);
 
   return (
-    <div className="cinematic-dashboard min-h-screen bg-[#07131d] text-[#e8f1f2] selection:bg-[#1c817d]/60">
+    <div className={`cinematic-dashboard${isCapacitorBuild ? " capacitor-build" : ""} min-h-screen bg-[#07131d] text-[#e8f1f2] selection:bg-[#1c817d]/60`}>
       <div className="ambient-atmosphere" aria-hidden="true">
-        <img src="/manus-storage/space-nebula-film_643d2c97.png" alt="" className="space-nebula-film" draggable={false} />
+        <img src={packagedAsset("space-nebula-film_643d2c97.png")} alt="" className="space-nebula-film" draggable={false} />
         <span className="space-nebula space-nebula-north" />
         <span className="space-nebula space-nebula-south" />
         <span className="space-stars space-stars-far" />
@@ -449,11 +451,11 @@ export default function Home() {
         <span className="space-particles" />
         <span className="space-orbit space-orbit-wide" />
         <span className="space-orbit space-orbit-close" />
-        <img src="/manus-storage/space-earthlike-edge_a7349942.png" alt="" className="space-planet-photo space-planet-photo-left" draggable={false} />
+        <img src={packagedAsset("space-earthlike-edge_a7349942.png")} alt="" className="space-planet-photo space-planet-photo-left" draggable={false} />
         <span className="earth-rotation-shimmer" />
-        <img src="/manus-storage/space-ringed-planet-edge_64f3fb9a.png" alt="" className="space-planet-photo space-planet-photo-right" draggable={false} />
-        <img src="/manus-storage/space-moon-realistic_af01dd28.png" alt="" className="space-moon-photo space-moon-photo-top" draggable={false} />
-        <img src="/manus-storage/space-moon-realistic_af01dd28.png" alt="" className="space-moon-photo space-moon-photo-bottom" draggable={false} />
+        <img src={packagedAsset("space-ringed-planet-edge_64f3fb9a.png")} alt="" className="space-planet-photo space-planet-photo-right" draggable={false} />
+        <img src={packagedAsset("space-moon-realistic_af01dd28.png")} alt="" className="space-moon-photo space-moon-photo-top" draggable={false} />
+        <img src={packagedAsset("space-moon-realistic_af01dd28.png")} alt="" className="space-moon-photo space-moon-photo-bottom" draggable={false} />
         <span className="space-meteor space-meteor-one" />
         <span className="space-meteor space-meteor-two" />
         <span className="space-dust space-dust-one" />
@@ -464,7 +466,7 @@ export default function Home() {
       <header className="border-b border-[#d9d3c6] bg-[#fbfaf6]/90 backdrop-blur-sm">
         <div className="container flex min-h-18 items-center justify-between gap-4 py-3">
           <a href="#calculator" className="brand-lockup focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#0e766e] focus-visible:ring-offset-4">
-            <img src="/manus-storage/gradebook-logo_37220e98.png" alt="" className="h-10 w-10 object-contain" />
+            <img src={packagedAsset("gradebook-logo_37220e98.png")} alt="" className="h-10 w-10 object-contain" />
             <span>
               <strong>Gradebook</strong>
               <small>CGPA calculator</small>
@@ -480,7 +482,7 @@ export default function Home() {
       <main id="calculator" className="container pb-12 pt-6 sm:pb-16 sm:pt-10">
         <section className="hero-ledger relative overflow-hidden rounded-[1.2rem] border border-[#d9d3c6] bg-[#efe9db] px-5 py-5 sm:px-8 sm:py-6">
           <img
-            src="/manus-storage/gradebook-hero-ledger_5218b0b4.jpg"
+            src={packagedAsset("gradebook-hero-ledger_5218b0b4.jpg")}
             alt=""
             className="pointer-events-none absolute inset-y-0 right-0 hidden h-full w-[42%] object-cover object-right opacity-45 mix-blend-multiply md:block"
           />
@@ -714,7 +716,7 @@ export default function Home() {
                     </AlertDialogTrigger>
                     <AlertDialogContent className="border-[#d2cbbe] bg-[#fffdf7] text-[#1f2a28]">
                       <AlertDialogHeader>
-                        <AlertDialogTitle className="font-['Fraunces'] text-2xl">Clear all saved semesters?</AlertDialogTitle>
+                      <AlertDialogTitle className="font-serif text-2xl">Clear all saved semesters?</AlertDialogTitle>
                         <AlertDialogDescription className="text-[#617069]">This permanently removes every locally saved semester and its calculation history from this browser. Your open draft stays available.</AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
@@ -754,7 +756,7 @@ export default function Home() {
 
           <aside className="order-1 lg:order-2 lg:sticky lg:top-5" aria-label="Overall calculation summary">
             <section className="overall-card relative overflow-hidden">
-              <img src="/manus-storage/gradebook-formula_b08efe24.jpg" alt="" className="overall-seal" />
+              <img src={packagedAsset("gradebook-formula_b08efe24.jpg")} alt="" className="overall-seal" />
               <div className="relative">
                 <div className="eyebrow text-[#bfe6df]"><GraduationCap size={14} /> Overall standing</div>
                 <p className="overall-card-heading">Your cumulative result</p>
@@ -776,7 +778,7 @@ export default function Home() {
             </section>
 
             <section className="side-note relative overflow-hidden">
-              <img src="/manus-storage/gradebook-semester_6c21de1e.jpg" alt="" className="side-note-art" />
+              <img src={packagedAsset("gradebook-semester_6c21de1e.jpg")} alt="" className="side-note-art" />
               <div className="relative max-w-[65%]">
                 <div className="eyebrow">Ledger note</div>
                 <p>Save each complete semester to keep its subjects and credit-weighted result in this browser.</p>

@@ -54,3 +54,7 @@
 - [x] Keep all foreground UI fixed while optimizing transform-based motion for mobile/PWA and reduced-motion preferences.
 - [x] Re-run all calculation regressions and verify desktop and mobile space motion remains subtle and cinematic.
 - [x] Add a centered, unobtrusive responsive footer reading “Last by Shreyas” at the bottom of the calculator.
+- [x] Assess the existing web build and offline assets for Capacitor Android packaging.
+- [x] Add Capacitor configuration, Android project files, and launcher icon resources.
+- [x] Verify the Android packaging setup and run the existing calculator regression tests.
+- [x] Document Android Studio APK build instructions.
