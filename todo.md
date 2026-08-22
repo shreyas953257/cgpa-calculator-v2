@@ -47,3 +47,6 @@
 - [x] Refine only the background into a realistic deep-space scene with rich nebulae, natural star fields, edge planets, orbital paths, and restrained meteor streaks.
 - [x] Preserve the entire foreground UI and calculation functionality while optimizing the animated background for mobile and reduced-motion users.
 - [x] Re-run all calculations and verify realistic background depth without reducing foreground readability.
+- [x] Replace the CSS-illustrated planets with photorealistic cinematic planet assets inside independently animated DOM background layers.
+- [x] Preserve the existing UI and functionality while adding realistic space depth, slow parallax, mobile safeguards, and reduced-motion support.
+- [x] Re-run all calculations and verify the official 3.95 and 9.25 results alongside desktop and mobile background quality.

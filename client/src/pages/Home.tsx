@@ -441,6 +441,7 @@ export default function Home() {
   return (
     <div className="cinematic-dashboard min-h-screen bg-[#07131d] text-[#e8f1f2] selection:bg-[#1c817d]/60">
       <div className="ambient-atmosphere" aria-hidden="true">
+        <img src="/manus-storage/space-nebula-film_643d2c97.png" alt="" className="space-nebula-film" draggable={false} />
         <span className="space-nebula space-nebula-north" />
         <span className="space-nebula space-nebula-south" />
         <span className="space-stars space-stars-far" />
@@ -448,11 +449,10 @@ export default function Home() {
         <span className="space-particles" />
         <span className="space-orbit space-orbit-wide" />
         <span className="space-orbit space-orbit-close" />
-        <span className="space-planet space-planet-left" />
-        <span className="space-planet space-planet-right" />
-        <span className="space-planet-ring" />
-        <span className="space-moon space-moon-top" />
-        <span className="space-moon space-moon-bottom" />
+        <img src="/manus-storage/space-earthlike-edge_a7349942.png" alt="" className="space-planet-photo space-planet-photo-left" draggable={false} />
+        <img src="/manus-storage/space-ringed-planet-edge_64f3fb9a.png" alt="" className="space-planet-photo space-planet-photo-right" draggable={false} />
+        <img src="/manus-storage/space-moon-realistic_af01dd28.png" alt="" className="space-moon-photo space-moon-photo-top" draggable={false} />
+        <img src="/manus-storage/space-moon-realistic_af01dd28.png" alt="" className="space-moon-photo space-moon-photo-bottom" draggable={false} />
         <span className="space-meteor space-meteor-one" />
         <span className="space-meteor space-meteor-two" />
         <span className="space-teal-sweep" />

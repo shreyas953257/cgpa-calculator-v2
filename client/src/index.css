@@ -563,6 +563,37 @@ html, body, #root { min-height: 100%; background: #07131d; }
 @media (max-width: 640px) { .space-meteor, .space-moon-top { display: none; } }
 @media (prefers-reduced-motion: reduce) { .space-meteor { display: none; } }
 
+/* Photorealistic celestial asset layer: independent DOM images, animated by transform only. */
+.space-nebula-film, .space-planet-photo, .space-moon-photo { position: absolute; display: block; pointer-events: none; user-select: none; will-change: transform, opacity; }
+.space-nebula-film { inset: -7%; width: 114%; height: 114%; object-fit: cover; opacity: .16; mix-blend-mode: screen; filter: saturate(.72) contrast(1.12) brightness(.68); }
+.space-planet-photo { object-fit: contain; filter: saturate(.82) contrast(1.08) brightness(.78) drop-shadow(0 0 26px rgb(71 171 189 / .18)); }
+.space-planet-photo-left { bottom: -20vw; left: -20vw; width: min(51vw, 700px); height: min(51vw, 700px); opacity: .72; }
+.space-planet-photo-right { top: 8%; right: -18vw; width: min(39vw, 530px); height: min(39vw, 530px); opacity: .67; filter: saturate(.72) contrast(1.1) brightness(.70) drop-shadow(0 0 28px rgb(93 180 159 / .15)); }
+.space-moon-photo { width: 54px; height: 54px; object-fit: contain; opacity: .40; filter: saturate(.55) contrast(1.12) brightness(.74) drop-shadow(0 0 11px rgb(113 202 217 / .14)); }
+.space-moon-photo-top { top: 6%; left: 7%; }
+.space-moon-photo-bottom { right: 7%; bottom: 7%; width: 39px; height: 39px; opacity: .36; }
+@media (prefers-reduced-motion: no-preference) {
+  .space-nebula-film { animation: photo-nebula-parallax 92s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-planet-photo-left { animation: photo-earth-parallax 86s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-planet-photo-right { animation: photo-ringed-parallax 104s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-moon-photo-top { animation: photo-moon-top 64s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-moon-photo-bottom { animation: photo-moon-bottom 79s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  @keyframes photo-nebula-parallax { from { transform: scale(1) translate3d(-.8%,-.5%,0); opacity: .13; } to { transform: scale(1.05) translate3d(.8%,.7%,0); opacity: .19; } }
+  @keyframes photo-earth-parallax { from { transform: translate3d(0,0,0) rotate(-1deg); } to { transform: translate3d(4vw,-2vh,0) rotate(1deg); } }
+  @keyframes photo-ringed-parallax { from { transform: translate3d(0,0,0) rotate(0deg); } to { transform: translate3d(-3vw,3vh,0) rotate(1deg); } }
+  @keyframes photo-moon-top { from { transform: translate3d(0,0,0); } to { transform: translate3d(2vw,2vh,0); } }
+  @keyframes photo-moon-bottom { from { transform: translate3d(0,0,0); } to { transform: translate3d(-2vw,-2vh,0); } }
+}
+@media (max-width: 640px) {
+  .space-nebula-film { opacity: .09; filter: saturate(.58) contrast(1.06) brightness(.55); }
+  .space-planet-photo-left { bottom: -26vw; left: -31vw; width: min(78vw, 420px); height: min(78vw, 420px); opacity: .42; }
+  .space-planet-photo-right, .space-moon-photo-top, .space-moon-photo-bottom { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .space-nebula-film { opacity: .08; }
+  .space-planet-photo, .space-moon-photo { display: none; }
+}
+
 /* Final material pass: warm inked paper in the active ledger, cinematic navy as the surrounding atmosphere. */
 .cinematic-dashboard .hero-ledger { min-height: 148px; padding-block: 1rem !important; background: linear-gradient(112deg, rgb(15 30 41 / 0.94), rgb(21 36 45 / 0.72)) !important; }
 .cinematic-dashboard .hero-ledger h1 { font-size: clamp(1.7rem, 3vw, 2.7rem); }
