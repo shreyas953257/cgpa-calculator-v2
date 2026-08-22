@@ -594,6 +594,43 @@ html, body, #root { min-height: 100%; background: #07131d; }
   .space-planet-photo, .space-moon-photo { display: none; }
 }
 
+/* Continuous cinematic motion pass: the scene moves; the application never does. */
+.earth-rotation-shimmer { position: absolute; bottom: -20vw; left: -20vw; display: block; width: min(51vw, 700px); height: min(51vw, 700px); border-radius: 50%; pointer-events: none; opacity: .18; background: url("/manus-storage/space-earthlike-edge_a7349942.png") 7% 50% / 184% auto no-repeat; mix-blend-mode: screen; filter: saturate(.72) contrast(1.06) brightness(.74); mask-image: radial-gradient(circle at 50% 50%, black 0 60%, rgb(0 0 0 / .72) 68%, transparent 76%); will-change: transform, opacity; }
+.earth-rotation-shimmer::after { position: absolute; inset: 0; border-radius: 50%; content: ""; background: linear-gradient(100deg, transparent 12%, rgb(185 239 248 / .10) 35%, transparent 52%, rgb(2 13 28 / .26) 80%); mix-blend-mode: soft-light; }
+.space-dust { position: absolute; display: block; width: 2px; height: 2px; border-radius: 50%; background: rgb(183 240 235 / .78); box-shadow: 0 0 7px rgb(92 211 203 / .35); opacity: .18; pointer-events: none; will-change: transform, opacity; }
+.space-dust-one { top: 29%; left: 13%; }
+.space-dust-two { top: 61%; right: 17%; width: 1px; height: 1px; opacity: .23; }
+.space-dust-three { top: 78%; left: 57%; width: 1.5px; height: 1.5px; opacity: .16; }
+@media (prefers-reduced-motion: no-preference) {
+  .space-planet-photo-left { animation: photo-earth-parallax 116s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .earth-rotation-shimmer { animation: earth-axial-rotation 150s linear infinite; }
+  .space-stars-far { animation: cinematic-star-field-drift 152s linear infinite alternate; }
+  .space-stars-near { animation: cinematic-star-twinkle 8.5s ease-in-out infinite alternate, cinematic-star-field-near 91s linear infinite alternate; }
+  .space-particles { animation: cinematic-particle-depth 74s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-nebula-film { animation: photo-nebula-parallax 138s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-planet-photo-right { animation: photo-ringed-parallax 142s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-orbit-wide { animation: space-orbit-wide 154s linear infinite alternate; }
+  .space-orbit-close { animation: space-orbit-close 181s linear infinite alternate; }
+  .space-dust-one { animation: space-dust-curve-one 46s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-dust-two { animation: space-dust-curve-two 62s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  .space-dust-three { animation: space-dust-curve-three 55s cubic-bezier(.45,0,.55,1) infinite alternate; }
+  @keyframes earth-axial-rotation { 0% { background-position: 4% 50%; opacity: .13; transform: translate3d(0,0,0); } 25% { opacity: .22; } 50% { background-position: 50% 50%; opacity: .19; } 75% { opacity: .24; } 100% { background-position: 96% 50%; opacity: .13; transform: translate3d(0,0,0); } }
+  @keyframes cinematic-star-field-drift { from { transform: translate3d(-.5%,.4%,0); } to { transform: translate3d(.5%,-.4%,0); } }
+  @keyframes cinematic-star-field-near { from { transform: translate3d(-1.1%,.7%,0); } to { transform: translate3d(1.1%,-.7%,0); } }
+  @keyframes cinematic-star-twinkle { 0%,100% { opacity: .16; } 45% { opacity: .29; } 70% { opacity: .20; } }
+  @keyframes cinematic-particle-depth { from { transform: translate3d(-.8%,1.4%,0); opacity: .09; } to { transform: translate3d(1.4%,-1.6%,0); opacity: .19; } }
+  @keyframes space-dust-curve-one { from { transform: translate3d(0,0,0); opacity: .08; } 55% { opacity: .25; } to { transform: translate3d(8vw,-5vh,0); opacity: .10; } }
+  @keyframes space-dust-curve-two { from { transform: translate3d(0,0,0); opacity: .08; } 50% { opacity: .22; } to { transform: translate3d(-7vw,-6vh,0); opacity: .08; } }
+  @keyframes space-dust-curve-three { from { transform: translate3d(0,0,0); opacity: .06; } 45% { opacity: .18; } to { transform: translate3d(5vw,-8vh,0); opacity: .06; } }
+}
+@media (max-width: 640px) {
+  .earth-rotation-shimmer { bottom: -26vw; left: -31vw; width: min(78vw, 420px); height: min(78vw, 420px); opacity: .11; }
+  .space-dust-two, .space-dust-three { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .earth-rotation-shimmer, .space-dust { display: none; }
+}
+
 /* Final material pass: warm inked paper in the active ledger, cinematic navy as the surrounding atmosphere. */
 .cinematic-dashboard .hero-ledger { min-height: 148px; padding-block: 1rem !important; background: linear-gradient(112deg, rgb(15 30 41 / 0.94), rgb(21 36 45 / 0.72)) !important; }
 .cinematic-dashboard .hero-ledger h1 { font-size: clamp(1.7rem, 3vw, 2.7rem); }

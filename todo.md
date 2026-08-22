@@ -50,3 +50,6 @@
 - [x] Replace the CSS-illustrated planets with photorealistic cinematic planet assets inside independently animated DOM background layers.
 - [x] Preserve the existing UI and functionality while adding realistic space depth, slow parallax, mobile safeguards, and reduced-motion support.
 - [x] Re-run all calculations and verify the official 3.95 and 9.25 results alongside desktop and mobile background quality.
+- [x] Add slow, seamless Earth rotation treatment, star drift/twinkle, low-opacity dust motion, nebula travel, and distant planetary parallax behind the UI.
+- [x] Keep all foreground UI fixed while optimizing transform-based motion for mobile/PWA and reduced-motion preferences.
+- [x] Re-run all calculation regressions and verify desktop and mobile space motion remains subtle and cinematic.

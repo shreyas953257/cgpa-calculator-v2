@@ -450,11 +450,15 @@ export default function Home() {
         <span className="space-orbit space-orbit-wide" />
         <span className="space-orbit space-orbit-close" />
         <img src="/manus-storage/space-earthlike-edge_a7349942.png" alt="" className="space-planet-photo space-planet-photo-left" draggable={false} />
+        <span className="earth-rotation-shimmer" />
         <img src="/manus-storage/space-ringed-planet-edge_64f3fb9a.png" alt="" className="space-planet-photo space-planet-photo-right" draggable={false} />
         <img src="/manus-storage/space-moon-realistic_af01dd28.png" alt="" className="space-moon-photo space-moon-photo-top" draggable={false} />
         <img src="/manus-storage/space-moon-realistic_af01dd28.png" alt="" className="space-moon-photo space-moon-photo-bottom" draggable={false} />
         <span className="space-meteor space-meteor-one" />
         <span className="space-meteor space-meteor-two" />
+        <span className="space-dust space-dust-one" />
+        <span className="space-dust space-dust-two" />
+        <span className="space-dust space-dust-three" />
         <span className="space-teal-sweep" />
       </div>
       <header className="border-b border-[#d9d3c6] bg-[#fbfaf6]/90 backdrop-blur-sm">
