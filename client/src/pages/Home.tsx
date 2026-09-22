@@ -136,9 +136,10 @@ const hasValidCredits = (value: string) => {
 const isSubjectComplete = (subject: Subject) =>
   subject.name.trim() !== "" && subject.grade !== "" && hasValidCredits(subject.credits);
 
-// Institutional rule: every completed subject remains registered for SGPA; F and DX earn zero credits and contribute zero points.
-const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject);
-const earnsCredits = (subject: Subject) => isSgpaIncluded(subject) && subject.grade !== "DX" && subject.grade !== "F";
+// Institutional rule: DX is excluded from SGPA/CGPA denominator and contributes no points.
+// F remains in the calculation with 0 grade points and therefore lowers SGPA/CGPA.
+const isSgpaIncluded = (subject: Subject) => isSubjectComplete(subject) && subject.grade !== "DX";
+const earnsCredits = (subject: Subject) => isSgpaIncluded(subject) && subject.grade !== "F";
 
 const isSubjectTouched = (subject: Subject) =>
   subject.name.trim() !== "" || subject.grade !== "" || subject.credits.trim() !== "";
@@ -165,14 +166,25 @@ export const getSubjectAudit = (subject: Subject): SubjectAudit => {
     };
   }
 
-  if (subject.grade === "DX" || subject.grade === "F") {
+  if (subject.grade === "DX") {
+    return {
+      gradePoint: 0,
+      credits,
+      earnedCredits: 0,
+      weightedPoints: 0,
+      status: "Excluded",
+      reason: "DX is excluded from SGPA/CGPA and its credits are omitted from the denominator.",
+    };
+  }
+
+  if (subject.grade === "F") {
     return {
       gradePoint: 0,
       credits,
       earnedCredits: 0,
       weightedPoints: 0,
       status: "Included",
-      reason: `${subject.grade} retains registered credits in SGPA, but earns 0 credits and contributes 0 points.`,
+      reason: "F is included with 0 grade points and 0 earned credits.",
     };
   }
 
